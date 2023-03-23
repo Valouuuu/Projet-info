@@ -1,6 +1,6 @@
 #accéder à la base de données
 from mysql.connector import connect
-bdd = connect(host="root", user="root", password="root",database="Velonimo")
+bdd = connect(host="127.0.0.1", user="root", password="root",database="velonimo")
 
 #importer la classe
 from joueur import Joueur
@@ -22,7 +22,7 @@ cursor = bdd.cursor()
 
 sql = "INSERT INTO Joueur(jou_user, jou_mdp, jou_age, jou_win, jou_lose) VALUES (%s, %s, %s, %s, %s)"
 cursor.execute(sql, (joueur.id, joueur.mdp, joueur.age, joueur.win, joueur.lose))
-
+bdd.commit()
 
 
 
