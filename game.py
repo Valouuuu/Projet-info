@@ -1,5 +1,7 @@
 import pygame
-pygame.init()
+
+
+
 class Game :
     def __init__(self):
         #creer la fenetre du jeu
