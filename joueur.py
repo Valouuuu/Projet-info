@@ -5,4 +5,5 @@ class Joueur:
         self.age = age 
         self.win = 0
         self.lose = 0
+        self.main = [] # ajouté pour distribuer les cartes 
         

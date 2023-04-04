@@ -1,23 +1,12 @@
 import random
-
-# Classe joueur déjà faite mais faut ajouter ces self du coup
-# Classe joueur pour tester le programme
-class player ():
-    def __init__ (self,pseudo):
-        self.pseudo = pseudo             
-        self.main = []
+from joueur import Joueur
 
 # Là je fais la liste que j'ai remplie de dico pour pouvoie asocier couleur et valeur mais en vrai go le refaire avec un "tableau de conversion", 
 # ça sera plus simple
 
-list = [{"red" : 1} , {"red" : 2} , {"red" : 3} , {"red" : 4} , {"red" : 5} , {"red" : 6} , {"red" : 7}, 
-         {"blue" : 1} , {"blue" : 2} , {"blue" : 3} , {"blue" : 4} , {"blue" : 5} , {"blue" : 6} , {"blue" : 7} ,
-         {"green" : 1}, {"green" : 2}, {"}green" : 3}, {"green" : 4}, {"green" : 5}, {"green" : 6}, {"green" : 7},
-         {"yellow" : 1}, {"yellow" : 2}, {"yellow" : 3}, {"yellow" : 4}, {"yellow" : 5}, {"yellow" : 6}, {"yellow" : 7},
-         {"pink" : 1}, {"pink" : 2}, {"pink" : 3}, {"pink" : 4}, {"pink" : 5}, {"pink" : 6}, {"pink" : 7},
-         {"grey" : 1} , {"grey" : 2}, {"grey" : 3}, {"grey" : 4}, {"grey" : 5}, {"grey" : 6}, {"grey" : 7},
-         {"brown" : 1}, {"brown" : 2}, {"brown" : 3}, {"brown" : 4}, {"brown" : 5}, {"brown" : 6}, {"brown" : 7},
-         {"baroudeur" : 25}, {"baroudeur" : 30}, {"baroudeur" : 35}, {"baroudeur" : 40}, {"baroudeur" : 45}, {"baroudeur" : 50} ]
+list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
+        ,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40
+        ,41,42,43,44,45,46,47,48,48,50,51,52,53,54,55]
 
 a = int(input("Veuillez rentrer le nombre de joueurs : "))
 
@@ -26,7 +15,7 @@ player_list = []
 # On initialise les mains
 
 for b in range (a):
-    player_list.append(player(b))
+    player_list.append(Joueur(b))
 
 # On mélange la liste pour mélanger les cartes
 
@@ -40,6 +29,8 @@ for q in range (0,11*a,a):
         p.main.append(list[q+b])
         b += 1
 
-# Boucle pour afficher les mains 
-# for p in player_list:
-#     print(p.main)
+for p in player_list:
+    print(p.main)
+    
+# Le programme fonctionne, par contre on a juste un problème avec la classe, 
+# il faudrait que les autres paramètre de la classe Joueur soient muettes
