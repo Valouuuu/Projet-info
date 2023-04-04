@@ -1,11 +1,14 @@
 import random
 
+# Classe joueur déjà faite mais faut ajouter ces self du coup
+# Classe joueur pour tester le programme
 class player ():
     def __init__ (self,pseudo):
-        self.pseudo = pseudo             #on s'en fou du pseudo
+        self.pseudo = pseudo             
         self.main = []
 
-
+# Là je fais la liste que j'ai remplie de dico pour pouvoie asocier couleur et valeur mais en vrai go le refaire avec un "tableau de conversion", 
+# ça sera plus simple
 
 list = [{"red" : 1} , {"red" : 2} , {"red" : 3} , {"red" : 4} , {"red" : 5} , {"red" : 6} , {"red" : 7}, 
          {"blue" : 1} , {"blue" : 2} , {"blue" : 3} , {"blue" : 4} , {"blue" : 5} , {"blue" : 6} , {"blue" : 7} ,
@@ -16,22 +19,27 @@ list = [{"red" : 1} , {"red" : 2} , {"red" : 3} , {"red" : 4} , {"red" : 5} , {"
          {"brown" : 1}, {"brown" : 2}, {"brown" : 3}, {"brown" : 4}, {"brown" : 5}, {"brown" : 6}, {"brown" : 7},
          {"baroudeur" : 25}, {"baroudeur" : 30}, {"baroudeur" : 35}, {"baroudeur" : 40}, {"baroudeur" : 45}, {"baroudeur" : 50} ]
 
-a = int(input("nb joueur"))
+a = int(input("Veuillez rentrer le nombre de joueurs : "))
 
 player_list = []
+
+# On initialise les mains
 
 for b in range (a):
     player_list.append(player(b))
 
-## ici toute les mains sont initialisées
+# On mélange la liste pour mélanger les cartes
 
-random.shuffle(list)    # la liste est mélangée
+random.shuffle(list)   
 
-for q in range (0,11*a,a):    #  distribution des cartes
+# On distrubue les cartes 
+
+for q in range (0,11*a,a): 
     b=0
     for p in player_list:
         p.main.append(list[q+b])
         b += 1
 
-for p in player_list:
-    print(p.main)
+# Boucle pour afficher les mains 
+# for p in player_list:
+#     print(p.main)
