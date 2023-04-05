@@ -40,3 +40,5 @@ VALUES	(1, 'rouge', '1'), (2, 'rouge', '2'), (3, 'rouge', '3'), (4, 'rouge', '4'
 ENGINE=INNODB;
 INSERT INTO Joueur
 VALUES ()
+
+

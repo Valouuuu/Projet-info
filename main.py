@@ -42,3 +42,4 @@ for Joueur in resultat:
 # mettre en commentaire : Ctrl+K+C
 # enlever commentaire : Ctrl+K+U
 
+

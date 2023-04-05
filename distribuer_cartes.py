@@ -84,3 +84,5 @@ while u == True :
         
         if count == len(color_list): # Si on a bien des cartes de même couleur alors on fait le calcul de la valeur totale des cartes
             add_value = len(value_list)*10 + value_list[min]
+            
+            

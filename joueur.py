@@ -7,3 +7,5 @@ class Joueur:
         self.lose = 0
         #self.main = [] # ajouté pour distribuer les cartes 
         
+    
+        
