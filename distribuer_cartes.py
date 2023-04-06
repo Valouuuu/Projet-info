@@ -7,9 +7,6 @@ class player ():
         self.pseudo = pseudo             
         self.main = []
         
-# Là je fais la liste que j'ai remplie de dico pour pouvoie asocier couleur et valeur mais en vrai go le refaire avec un "tableau de conversion", 
-# ça sera plus simple
-
 list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
         ,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40
         ,41,42,43,44,45,46,47,48,48,50,51,52,53,54,55]
@@ -20,7 +17,7 @@ player_list = []
 
 # On initialise les mains
 
-for b in range (a):
+for b in range(a):
     player_list.append(player(b))
 
 # On mélange la liste pour mélanger les cartes
@@ -51,7 +48,6 @@ u = True
 print("C'est au joueur",playing,"de jouer !")
 print("Voici votre main")
 print(player_list[playing].main)
-print("Quelle(s) carte(s) voulez-vous jouer ?")
 
 # On créer une boucle qui correspond au à la partie (ajouter boucle manche, tour, tour de joueur)
 
@@ -60,29 +56,40 @@ while u == True :
     value_list = []
     count = 0
     center = 0  
+    min = 50
+    comp = 0
+    comp2 = ''
+    
     # Dans la boucle tour de joueur, ici on demande au joueur les cartes qu'il veut jouer
-    for i in range (0,7):
+    
+    n = int(input("Combien de cartes voulez-vous jouer ? :"))
+    for i in range (n):
         color = str(input("Saisir la couleur de la carte :"))
-        value = str(input("Saisir la valeur de la carte :"))
+        value = int(input("Saisir la valeur de la carte :"))
         color_list.append(color) # On ajoute les couleurs de carte à une liste pour pouvoir les comparer
         value_list.append(value) # On ajoute les valeurs de carte à une liste pour pouvoir les comparer 
         
         for j in range (len(value_list)): # On cherche à trouver la valeur minimum présente dans la liste des valeurs
-            if value_list[j] < value_list[j+1]:
+            if value_list[j] < min :
                 min = j
         
+        comp = value_list[0] # Valeur pour comparer dans la liste 
+        
         for k in range (len(value_list)): # On compare les valeurs entre elles pour savoir si le joueur à jouer QUE des cartes de même valeur
-            if value_list[k] == value_list(k+1): 
-                count = count + 1
+            if value_list[k] == comp : 
+                count =+ 1
         
         if count == len(value_list): # Si on a bien des cartes de même valeur alors on fait le calcul de la valeur totale des cartes
             add_value = len(value_list)*10 + value_list[0]
         
+        comp2 = color_list[0] # Valeur pour comparer la liste
+        
         for k2 in range (len(color_list)): # On compare les couleurs entre elles pour savoir si le joueur à jouer QUE des cartes de même couleur
-            if value_list[k2] == value_list(k2+1):
-                count = count + 1
+            if color_list[k2] == comp2 :
+                count =+ 1
         
         if count == len(color_list): # Si on a bien des cartes de même couleur alors on fait le calcul de la valeur totale des cartes
-            add_value = len(value_list)*10 + value_list[min]
-            
-            
+            add_value = n*10 + value_list[min]
+        
+        if add_value < center :
+            center =+ add_value             
