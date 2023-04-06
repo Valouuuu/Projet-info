@@ -1,4 +1,4 @@
-class Joueur:
+class Compte:
     def __init__(self, identifiant, mdp, age) :
         self.id =  identifiant
         self.mdp = mdp
@@ -7,5 +7,6 @@ class Joueur:
         self.lose = 0
         #self.main = [] # ajouté pour distribuer les cartes 
         
+
     
         

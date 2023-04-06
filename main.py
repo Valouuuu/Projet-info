@@ -3,7 +3,7 @@ from mysql.connector import connect
 bdd = connect(host="127.0.0.1", user="root", password="root",database="Velonimo")
 
 #importer la classe
-from joueur import Joueur
+from Compte import Compte 
 
 
 
@@ -18,9 +18,9 @@ cursor = bdd.cursor()
 id = input("id :")
 mdp = input("mdp :")
 age = input("age :")
-joueur = Joueur(id, mdp, age)
-sql = "INSERT INTO Joueur(jou_user, jou_mdp, jou_age, jou_win, jou_lose) VALUES (%s, %s, %s, %s, %s)"
-cursor.execute(sql, (joueur.id, joueur.mdp, joueur.age, joueur.win, joueur.lose))
+compte = Compte(id, mdp, age)
+sql = "INSERT INTO Compte(com_user, com_mdp, com_age, com_win, com_lose) VALUES (%s, %s, %s, %s, %s)"
+cursor.execute(sql, (compte.id, compte.mdp, compte.age, compte.win, compte.lose))
 bdd.commit()
 
 #Ajout d'un joueur
@@ -29,13 +29,13 @@ bdd.commit()
 
 #récupération des données
 
-cursor.execute("SELECT jou_user, jou_mdp, jou_age, jou_win, jou_lose FROM Joueur")
+cursor.execute("SELECT com_user, com_mdp, com_age, com_win, com_lose FROM Compte")
 resultat = cursor.fetchall()
 
 #récupérer ensemble des lignes : resultat = cursor.fetchall()
 #parcourir resultat :
-for Joueur in resultat:
-    id, mdp, age, win, lose = Joueur
+for Compte in resultat:
+    id, mdp, age, win, lose = Compte
     print(id, mdp, age, win, lose)
 
 
