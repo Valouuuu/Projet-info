@@ -92,4 +92,5 @@ while u == True :
             add_value = n*10 + value_list[min]
         
         if add_value < center :
-            center =+ add_value             
+            center =+ add_value  
+                       
