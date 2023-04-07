@@ -3,7 +3,7 @@ from mysql.connector import connect
 bdd = connect(host="127.0.0.1", user="root", password="root",database="Velonimo")
 
 #importer la classe
-from Compte import Compte 
+from Compte import Compte
 
 
 
