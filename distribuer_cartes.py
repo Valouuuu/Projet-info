@@ -119,11 +119,11 @@ def player_turn(center,deck):
 
               
 
-def tour(player_list,winner):
+def tour(player_list, playerturn,winner):
     center = 0 #valeur du centre au début du tour
     # for p in player_list: #le gagnant de la dernière manche joue (sauf si c'est la 1ère manche le plus jeune)
     #     if p.
-    while True: #boucle du tour
+    while True: #boucle du tour !!! pas fini car il y a plusieurs mains par tour, fin du tour quand les gens n'ont plus de cartes
         playerking == 0
         for p in player_list: 
             if playerking != player_list[p]: #si le joueur n'est pas le king
@@ -134,9 +134,17 @@ def tour(player_list,winner):
                False
     return
 
+
+
+
 def manche():
     for k in range (5):
         tour()
 
 
-        
+def akiletour(player_list): #créé un ordre des joueurs aléatoire 
+    l = []
+    for p in player_list:
+        l += player_list[p]
+    random.shuffle(l)
+    return l
