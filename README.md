@@ -4,3 +4,7 @@ lien tuto utiliser pygame : https://qq.readthedocs.io/en/latest/
 
 
 shift + tab en lever indatation
+
+
+
+dans player turn on ne supprime pas la carte de la liste !
