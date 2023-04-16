@@ -14,17 +14,18 @@ width = 800 #Dimension de la fenêtre / Largeur
 length = 600 #Dimension de la fenêtre / Longueur
  
 class Menu :
-    #Création et gestion des boutons dU menu """
+    #Création et gestion des boutons du menu """
     def __init__(self, application, *groupes) :
         self.couleurs = dict(
             normal=(0, 200, 0),
             survol=(0, 200, 200),
         )
-        #création du fond
-        font = pygame.font.SysFont('Helvetica', 24, bold=True)
+        #création de la police
+        font = pygame.font.SysFont('Calibri', 24, bold=True)
         # noms des menus et commandes associées
         items = (
             ('JOUER', application.jeu),
+            ('REGLES', application.regles),
             ('QUITTER', application.leave)
         )
         x = 400
@@ -144,7 +145,7 @@ class Application :
         pygame.init()
         pygame.display.set_caption("Velonimo")
  
-        self.background = (150,)*3
+        self.background = pygame.image.load("ImageMenu.jpg")
  
         self.screen = pygame.display.set_mode((width,length))
         # Groupe de sprites utilisé pour l'affichage
@@ -171,7 +172,10 @@ class Application :
  
     def leave(self) :
         self.statut = False
- 
+
+    def regles(self): #bouton regles à faire
+        pass
+
     def update(self) :
         events = pygame.event.get()
  
@@ -180,7 +184,7 @@ class Application :
                 self.leave()
                 return
  
-        self.screen.fill(self.background)
+        self.screen.blit(self.background, (0,0))
         self.ecran.update(events)
         self.groupeGlobal.update()
         self.groupeGlobal.draw(self.screen)
@@ -194,6 +198,6 @@ clock = pygame.time.Clock()
  
 while app.statut :
     app.update()
-    clock.tick(30)
+    clock.tick(60)
  
 pygame.quit()
