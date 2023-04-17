@@ -145,7 +145,7 @@ class Application :
         pygame.init()
         pygame.display.set_caption("Velonimo")
  
-        self.background = pygame.image.load("ImageMenu.jpg")
+        self.background = pygame.transform.scale(pygame.image.load("ImageMenu.jpg"),(800,600)) #pygame.transform.scale pour avoir l'image à la résolution souhaitée, sinon elle ne recouvre pas tout l'écran
  
         self.screen = pygame.display.set_mode((width,length))
         # Groupe de sprites utilisé pour l'affichage
@@ -184,7 +184,7 @@ class Application :
                 self.leave()
                 return
  
-        self.screen.blit(self.background, (0,0))
+        self.screen.blit(self.background, (0,0)) #Un blit signifie que l'on copie les couleurs de chaque pixel d'une image sur une autre. Avec la méthode blit(), on prend une surface dite source que l'on applique sur la surface destination, le tout à une position définie.
         self.ecran.update(events)
         self.groupeGlobal.update()
         self.groupeGlobal.draw(self.screen)
