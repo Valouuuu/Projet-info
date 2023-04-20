@@ -10,7 +10,7 @@
 
 import pygame
  
-width = 800 #Dimension de la fenêtre / Largeur
+width = 800 #Dimension de la fenêtre / Largeur #pour plein écran mettre 0 et 0
 length = 600 #Dimension de la fenêtre / Longueur
  
 class Menu :
@@ -112,7 +112,7 @@ class Jeu :
         couleurs.extend(sorted(couleurs[1:-1], reverse=True))
         self._couleurTexte = cycle(couleurs)
  
-        self._font = pygame.font.SysFont('Helvetica', 36, bold=True)
+        self._font = pygame.font.SysFont('Arial', 36, bold=True)
         self.creerTexte()
         self.rectTexte = self.texte.get_rect()
         self.rectTexte.center = (width/2, length/2)
@@ -146,7 +146,9 @@ class Application :
         pygame.display.set_caption("Velonimo")
  
         self.background = pygame.transform.scale(pygame.image.load("ImageMenu.jpg"),(800,600)) #pygame.transform.scale pour avoir l'image à la résolution souhaitée, sinon elle ne recouvre pas tout l'écran
- 
+        # self.windowGame = pygame.Surface((800, 600)).convert()
+        self.background_game = (150,)*3
+
         self.screen = pygame.display.set_mode((width,length))
         # Groupe de sprites utilisé pour l'affichage
         self.groupeGlobal = pygame.sprite.Group()
@@ -184,7 +186,7 @@ class Application :
                 self.leave()
                 return
  
-        self.screen.blit(self.background, (0,0)) #Un blit signifie que l'on copie les couleurs de chaque pixel d'une image sur une autre. Avec la méthode blit(), on prend une surface dite source que l'on applique sur la surface destination, le tout à une position définie.
+        self.screen.fill(self.background_game) 
         self.ecran.update(events)
         self.groupeGlobal.update()
         self.groupeGlobal.draw(self.screen)
