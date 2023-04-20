@@ -27,3 +27,8 @@ ecran statistiques joueur
 
 
 #Un blit signifie que l'on copie les couleurs de chaque pixel d'une image sur une autre. Avec la méthode blit(), on prend une surface dite source que l'on applique sur la surface destination, le tout à une position définie.
+
+
+
+
+utilisation de  https://reviewgrower.com/button-and-badge-generator/ pour créer des boutons
