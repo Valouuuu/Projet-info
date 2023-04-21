@@ -1,6 +1,6 @@
 import pygame
 import button
-
+from screen import scr_sz
 #game loop
 class Game():
     def __init__(self):
@@ -29,30 +29,32 @@ class Game():
         self.text_col = (255, 255, 255)
 
         #load button images
-        resume_img = pygame.image.load("images/button_resume.png").convert_alpha()
-        options_img = pygame.image.load("images/button_options.png").convert_alpha()
-        quit_img = pygame.image.load("images/button_quit.png").convert_alpha()
-        video_img = pygame.image.load('images/button_video.png').convert_alpha()
-        audio_img = pygame.image.load('images/button_audio.png').convert_alpha()
-        keys_img = pygame.image.load('images/button_keys.png').convert_alpha()
-        back_img = pygame.image.load('images/button_back.png').convert_alpha()
+        # resume_img = pygame.image.load("images/button_resume.png").convert_alpha()
+        # options_img = pygame.image.load("images/button_options.png").convert_alpha()
+        # quit_img = pygame.image.load("images/button_quit.png").convert_alpha()
+        # video_img = pygame.image.load('images/button_video.png').convert_alpha()
+        # audio_img = pygame.image.load('images/button_audio.png').convert_alpha()
+        # keys_img = pygame.image.load('images/button_keys.png').convert_alpha()
+        # back_img = pygame.image.load('images/button_back.png').convert_alpha()
 
 
-        creeruncompte_img = pygame.image.load("images/button_creeruncompte.png").convert_alpha()
-        jaidejauncompte_img = pygame.image.load("images/button_jaidejauncompte.png").convert_alpha()
-
+        creeruncompte_img = pygame.image.load("Menu Velonimo V2/images/button_creeruncompte.png").convert_alpha()
+        jaidejauncompte_img = pygame.image.load("Menu Velonimo V2/images/button_jaidejauncompte.png").convert_alpha()
+        exit_img = pygame.image.load("Menu Velonimo V2/images/button_exit.png").convert_alpha()
+        
+        
         #create button instances
-        self.resume_button = button.Button(304, 125, resume_img, 1)
-        self.options_button = button.Button(297, 250, options_img, 1)
-        self.quit_button = button.Button(336, 375, quit_img, 1)
-        self.video_button = button.Button(226, 75, video_img, 1)
-        self.audio_button = button.Button(225, 200, audio_img, 1)
-        self.keys_button = button.Button(246, 325, keys_img, 1)
-        self.back_button = button.Button(332, 450, back_img, 1)
-
-        self.creeruncompte = button.Button(310, 400, creeruncompte_img, 1)
-        self.jaidejauncompte =  button.Button(300, 200, jaidejauncompte_img, 1)
-
+        # self.resume_button = button.Button(304, 125, resume_img, 1)
+        # self.options_button = button.Button(297, 250, options_img, 1)
+        # self.quit_button = button.Button(336, 375, quit_img, 1)
+        # self.video_button = button.Button(226, 75, video_img, 1)
+        # self.audio_button = button.Button(225, 200, audio_img, 1)
+        # self.keys_button = button.Button(246, 325, keys_img, 1)
+        # self.back_button = button.Button(332, 450, back_img, 1)
+        
+        self.jaidejauncompte =  button.Button(scr_sz('x')/2-100, scr_sz('y')/2-100, jaidejauncompte_img, 1)
+        self.creeruncompte = button.Button(scr_sz('x')/2-115, scr_sz('y')/2-40, creeruncompte_img, 1)
+        self.quitter =  button.Button(scr_sz('x')/2-50, scr_sz('y')/2+20, exit_img, 1)
 
     def draw_text(self, screen, text, x, y):
         img = self.font.render(text, True, self.text_col)
@@ -71,8 +73,13 @@ class Game():
 
     def loop(self, screen) :
         while self.run:
-
+    
             screen.fill((255, 255, 255))
+
+            title = pygame.image.load("Menu Velonimo V2/images/titre.png").convert()
+            screen.blit(title, (scr_sz('x')/2-325, scr_sz('y')/2-350))
+            animal = pygame.image.load("Menu Velonimo V2/images/animaux.jpg").convert()
+            screen.blit(animal, (scr_sz('x')/2-540, scr_sz('y')-350))
 
             #check if the user have an account
             if self.connected == False :
@@ -86,6 +93,9 @@ class Game():
                 if self.jaidejauncompte.draw(screen):
                     self.menu_state == "login"
                     print("seconnecter")
+                if self.quitter.draw(screen):
+                    self.menu_state == "exit"
+                    exit()   # on sort du programme
                 if Game.create_input(self, screen, self.user_text, 200, 200, 140, 32):
                     pass
 

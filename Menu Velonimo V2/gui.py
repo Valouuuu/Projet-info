@@ -5,10 +5,7 @@ from game import Game
 pygame.init()
 
 #create game window
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((0,0)) #on a mit (0,0) pour afficher le jeu en plein écran
 pygame.display.set_caption("Velonimo")
 
 game = Game()
