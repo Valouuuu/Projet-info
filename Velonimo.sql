@@ -13,12 +13,11 @@ CREATE TABLE Compte (
 	com_user VARCHAR(30) NOT NULL,
     com_mdp VARCHAR(30) NOT NULL,
     com_age INT NOT NULL,
-    com_win INT NOT NULL,
-    com_lose INT NOT NULL,
+    com_win INT DEFAULT 0,
+    com_lose INT DEFAULT 0,
 	PRIMARY KEY (com_id)
 
 )
-
 ENGINE=INNODB;
 
 CREATE TABLE Cartes (

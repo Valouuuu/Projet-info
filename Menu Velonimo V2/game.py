@@ -87,15 +87,21 @@ class Game():
             
             #AccountMenu
             if self.menu_state == "Connection":
+                
                 if self.creeruncompte.draw(screen):
                     self.menu_state == "Create_account"
-                    print("creeruncompte")
+                    
+                    debug = self.font.render(self.menu_state, True, 'black')
+                    screen.blit(debug,(200 - debug.get_width() // 2, 150 - debug.get_height() // 2))
+
                 if self.jaidejauncompte.draw(screen):
                     self.menu_state == "login"
                     print("seconnecter")
+                
                 if self.quitter.draw(screen):
                     self.menu_state == "exit"
                     exit()   # on sort du programme
+                
                 if Game.create_input(self, screen, self.user_text, 200, 200, 140, 32):
                     pass
 
