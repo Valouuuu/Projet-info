@@ -10,7 +10,7 @@ class Game():
         #game variables
         self.game_paused = False
         self.connected = False
-        self.menu_state = "main"
+        self.menu_state = "Connection"
 
         
         # #parametre pour input
@@ -29,33 +29,24 @@ class Game():
         self.text_col = (255, 255, 255)
 
         #load button images
-        # resume_img = pygame.image.load("images/button_resume.png").convert_alpha()
-        # options_img = pygame.image.load("images/button_options.png").convert_alpha()
-        # quit_img = pygame.image.load("images/button_quit.png").convert_alpha()
-        # video_img = pygame.image.load('images/button_video.png').convert_alpha()
-        # audio_img = pygame.image.load('images/button_audio.png').convert_alpha()
-        # keys_img = pygame.image.load('images/button_keys.png').convert_alpha()
-        # back_img = pygame.image.load('images/button_back.png').convert_alpha()
-
-
         creeruncompte_img = pygame.image.load("Menu Velonimo V2/images/button_creeruncompte.png").convert_alpha()
         jaidejauncompte_img = pygame.image.load("Menu Velonimo V2/images/button_jaidejauncompte.png").convert_alpha()
         exit_img = pygame.image.load("Menu Velonimo V2/images/button_exit.png").convert_alpha()
-        
+        icon_img = pygame.image.load("Menu Velonimo V2/images/ImageMenu.jpg").convert_alpha()
+
+        #load img
+        self.title = pygame.image.load("Menu Velonimo V2/images/titre.png").convert_alpha()
+        self.animal = pygame.image.load("Menu Velonimo V2/images/animaux.jpg").convert_alpha()
+
+        #changement de l'icone de la fenêtre
+        pygame.display.set_icon(icon_img)
         
         #create button instances
-        # self.resume_button = button.Button(304, 125, resume_img, 1)
-        # self.options_button = button.Button(297, 250, options_img, 1)
-        # self.quit_button = button.Button(336, 375, quit_img, 1)
-        # self.video_button = button.Button(226, 75, video_img, 1)
-        # self.audio_button = button.Button(225, 200, audio_img, 1)
-        # self.keys_button = button.Button(246, 325, keys_img, 1)
-        # self.back_button = button.Button(332, 450, back_img, 1)
-        
         self.jaidejauncompte =  button.Button(scr_sz('x')/2-100, scr_sz('y')/2-100, jaidejauncompte_img, 1)
         self.creeruncompte = button.Button(scr_sz('x')/2-115, scr_sz('y')/2-40, creeruncompte_img, 1)
         self.quitter =  button.Button(scr_sz('x')/2-50, scr_sz('y')/2+20, exit_img, 1)
 
+        
     def draw_text(self, screen, text, x, y):
         img = self.font.render(text, True, self.text_col)
         screen.blit(img, (x, y))
@@ -73,39 +64,53 @@ class Game():
 
     def loop(self, screen) :
         while self.run:
-    
+            input = False
             screen.fill((255, 255, 255))
+            Game.draw_text(self, screen, "Press SPACE to pause", 160, 250)
+            
+            
 
-            title = pygame.image.load("Menu Velonimo V2/images/titre.png").convert()
-            screen.blit(title, (scr_sz('x')/2-325, scr_sz('y')/2-350))
-            animal = pygame.image.load("Menu Velonimo V2/images/animaux.jpg").convert()
-            screen.blit(animal, (scr_sz('x')/2-540, scr_sz('y')-350))
-
-            #check if the user have an account
-            if self.connected == False :
-                self.menu_state = "Connection"
+            # #check if the user have an account
+            # if self.connected == False :
+            #     self.menu_state = "Connection"
             
             #AccountMenu
             if self.menu_state == "Connection":
+                screen.blit(self.title, (scr_sz('x')/2-325, scr_sz('y')/2-350))
+                screen.blit(self.animal, (scr_sz('x')/2-540, scr_sz('y')-350))
                 if self.creeruncompte.draw(screen):
-                    self.menu_state == "Create_account"
-                    print("creeruncompte")
+                    self.menu_state = "Create_account"
                 if self.jaidejauncompte.draw(screen):
-                    self.menu_state == "login"
-                    print("seconnecter")
+                    self.menu_state = "login"
                 if self.quitter.draw(screen):
-                    self.menu_state == "exit"
-                    exit()   # on sort du programme
-                if Game.create_input(self, screen, self.user_text, 200, 200, 140, 32):
-                    pass
+                    self.run = False   # on sort du programme
 
             #créer un compte
             if self.menu_state == "Create_account":
-                pass
+                input = True #trouver comment ne pas avoir à utiliser ça #draw_text not working for some reasons
+                screen.blit(self.animal, (scr_sz('x')/2-540, scr_sz('y')-350))
+                Game.draw_text(self, screen, "Veuillez renseigner :", 160, 250)
+                Game.draw_text(self, screen, "Identifiant", 160, 300)
+                Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
+                Game.draw_text(self, screen, "mot de passe", 160, 350)
+                Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
+                Game.draw_text(self, screen, "age", 160, 400)
+                Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
+                if self.jaidejauncompte.draw(screen):
+                    self.menu_state = "login"
 
             #se connecter
             if self.menu_state == "login":
-                pass
+                input = True
+                screen.blit(self.animal, (scr_sz('x')/2-540, scr_sz('y')-350))
+                Game.draw_text(self, screen, "Veuillez rentrer :", 160, 250)
+                Game.draw_text(self, screen, "Identifiant", 160, 250)
+                Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
+                Game.draw_text(self, screen, "mot de passe", 160, 250)
+                Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
+                if self.creeruncompte.draw(screen):
+                    self.menu_state = "Create_account"
+            
 
 
             #check if game is paused  #exemples de choses que l'on peut faire
@@ -136,10 +141,11 @@ class Game():
             #event handler                                     
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if self.input_rect.collidepoint(event.pos):
-                        self.active = True
-                    else :
-                        self.active = False
+                    if input == True:
+                        if self.input_rect.collidepoint(event.pos):
+                            self.active = True
+                        else :
+                            self.active = False
                 if event.type == pygame.KEYDOWN:
                     if self.active == True:
                         if event.key == pygame.K_BACKSPACE:
