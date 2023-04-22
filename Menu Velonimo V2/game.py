@@ -2,14 +2,14 @@ import pygame
 import button
 # from screen import scr_sz
 
-def scr_sz(a):
+def screen_size(size):
     screen_size  = pygame.display.get_desktop_sizes()
     tu = screen_size[0]
     x = tu[0]
     y = tu[1]
-    if a == 'x':
+    if size == 'x':
         return x
-    elif a == 'y':
+    elif size == 'y':
         return y
 
 
@@ -90,13 +90,13 @@ class Game():
             #AccountMenu
             if self.menu_state == "Connection":
                 #create button instances
-                jaidejauncompte =  button.Button(scr_sz('x')/2-100, scr_sz('y')/2-100, self.jaidejauncompte_img, 1)
-                creeruncompte = button.Button(scr_sz('x')/2-115, scr_sz('y')/2-40, self.creeruncompte_img, 1)
-                quitter =  button.Button(scr_sz('x')/2-50, scr_sz('y')/2+20, self.exit_img, 1)
+                jaidejauncompte =  button.Button(screen_size('x')/2-100, screen_size('y')/2-100, self.jaidejauncompte_img, 1)
+                creeruncompte = button.Button(screen_size('x')/2-115, screen_size('y')/2-40, self.creeruncompte_img, 1)
+                quitter =  button.Button(screen_size('x')/2-50, screen_size('y')/2+20, self.exit_img, 1)
 
                 #create background
-                screen.blit(self.title, (scr_sz('x')/2-325, scr_sz('y')/2-350))
-                screen.blit(self.animal, (scr_sz('x')/2-540, scr_sz('y')-350))
+                screen.blit(self.title, (screen_size('x')/2-325, screen_size('y')/2-350))
+                screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
 
                 if creeruncompte.draw(screen) and self.clicked == False:
                     self.menu_state = "Create_account"
@@ -113,11 +113,11 @@ class Game():
             #créer un compte
             if self.menu_state == "Create_account":
                 #create button instances
-                jaidejauncompte =  button.Button(scr_sz('x')/2-115, scr_sz('y')/2-40, self.jaidejauncompte_img, 1)
-                quitter =  button.Button(scr_sz('x')/2-50, scr_sz('y')/2+20, self.exit_img, 1)
+                jaidejauncompte =  button.Button(screen_size('x')/2-115, screen_size('y')/2-40, self.jaidejauncompte_img, 1)
+                quitter =  button.Button(screen_size('x')/2-50, screen_size('y')/2+20, self.exit_img, 1)
 
                 input = True #trouver comment ne pas avoir à utiliser ça #draw_text not working for some reasons
-                screen.blit(self.animal, (scr_sz('x')/2-540, scr_sz('y')-350))
+                screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
                 Game.draw_text(self, screen, "Veuillez renseigner :", 160, 250)
                 Game.draw_text(self, screen, "Identifiant", 160, 300)
                 Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
@@ -125,6 +125,7 @@ class Game():
                 Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
                 Game.draw_text(self, screen, "age", 160, 400)
                 Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
+                print(self.user_text)
                 if jaidejauncompte.draw(screen) and self.clicked == False:
                     self.menu_state = "login"
                     self.clicked = True
@@ -132,16 +133,17 @@ class Game():
             #se connecter
             if self.menu_state == "login":
                 #create button instances
-                creeruncompte = button.Button(scr_sz('x')/2-115, scr_sz('y')/2-40, self.creeruncompte_img, 1)
-                quitter =  button.Button(scr_sz('x')/2-50, scr_sz('y')/2+20, self.exit_img, 1)
+                creeruncompte = button.Button(screen_size('x')/2-115, screen_size('y')/2-40, self.creeruncompte_img, 1)
+                quitter =  button.Button(screen_size('x')/2-50, screen_size('y')/2+20, self.exit_img, 1)
 
                 input = True
-                screen.blit(self.animal, (scr_sz('x')/2-540, scr_sz('y')-350))
+                screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
                 Game.draw_text(self, screen, "Veuillez rentrer :", 160, 250)
                 Game.draw_text(self, screen, "Identifiant", 160, 250)
                 Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
                 Game.draw_text(self, screen, "mot de passe", 160, 250)
                 Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
+                print(self.user_text)
                 if creeruncompte.draw(screen) and self.clicked == False:
                     self.menu_state = "Create_account"
                     self.clicked = True
