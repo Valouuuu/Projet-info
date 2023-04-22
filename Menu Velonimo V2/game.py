@@ -23,6 +23,7 @@ class Game():
         self.game_paused = False
         self.connected = False
         self.menu_state = "Connection"
+        self.clicked = False
 
         
         # #parametre pour input
@@ -41,22 +42,22 @@ class Game():
         self.text_col = (255, 255, 255)
 
         #load button images
-        creeruncompte_img = pygame.image.load("Menu Velonimo V2/images/button_creeruncompte.png").convert_alpha()
-        jaidejauncompte_img = pygame.image.load("Menu Velonimo V2/images/button_jaidejauncompte.png").convert_alpha()
-        exit_img = pygame.image.load("Menu Velonimo V2/images/button_exit.png").convert_alpha()
-        icon_img = pygame.image.load("Menu Velonimo V2/images/ImageMenu.jpg").convert_alpha()
+        self.creeruncompte_img = pygame.image.load("Menu Velonimo V2/images/button_creeruncompte.png").convert_alpha()
+        self.jaidejauncompte_img = pygame.image.load("Menu Velonimo V2/images/button_jaidejauncompte.png").convert_alpha()
+        self.exit_img = pygame.image.load("Menu Velonimo V2/images/button_exit.png").convert_alpha()
+        self.icon_img = pygame.image.load("Menu Velonimo V2/images/ImageMenu.jpg").convert_alpha()
 
         #load img
         self.title = pygame.image.load("Menu Velonimo V2/images/titre.png").convert_alpha()
         self.animal = pygame.image.load("Menu Velonimo V2/images/animaux.jpg").convert_alpha()
 
         #changement de l'icone de la fenêtre
-        pygame.display.set_icon(icon_img)
+        pygame.display.set_icon(self.icon_img)
         
         #create button instances
-        self.jaidejauncompte =  button.Button(scr_sz('x')/2-100, scr_sz('y')/2-100, jaidejauncompte_img, 1)
-        self.creeruncompte = button.Button(scr_sz('x')/2-115, scr_sz('y')/2-40, creeruncompte_img, 1)
-        self.quitter =  button.Button(scr_sz('x')/2-50, scr_sz('y')/2+20, exit_img, 1)
+        # self.jaidejauncompte =  button.Button(scr_sz('x')/2-100, scr_sz('y')/2-100, jaidejauncompte_img, 1)
+        # self.creeruncompte = button.Button(scr_sz('x')/2-115, scr_sz('y')/2-40, creeruncompte_img, 1)
+        # self.quitter =  button.Button(scr_sz('x')/2-50, scr_sz('y')/2+20, exit_img, 1)
 
         
     def draw_text(self, screen, text, x, y):
@@ -88,19 +89,33 @@ class Game():
             
             #AccountMenu
             if self.menu_state == "Connection":
+                #create button instances
+                jaidejauncompte =  button.Button(scr_sz('x')/2-100, scr_sz('y')/2-100, self.jaidejauncompte_img, 1)
+                creeruncompte = button.Button(scr_sz('x')/2-115, scr_sz('y')/2-40, self.creeruncompte_img, 1)
+                quitter =  button.Button(scr_sz('x')/2-50, scr_sz('y')/2+20, self.exit_img, 1)
+
+                #create background
                 screen.blit(self.title, (scr_sz('x')/2-325, scr_sz('y')/2-350))
                 screen.blit(self.animal, (scr_sz('x')/2-540, scr_sz('y')-350))
-                if self.creeruncompte.draw(screen):
+
+                if creeruncompte.draw(screen) and self.clicked == False:
                     self.menu_state = "Create_account"
+                    self.clicked = True
                     # debug = self.font.render(self.menu_state, True, 'black')
                     # screen.blit(debug,(200 - debug.get_width() // 2, 150 - debug.get_height() // 2))   ce que tu as commit hier
-                if self.jaidejauncompte.draw(screen):
+                if jaidejauncompte.draw(screen) and self.clicked == False:
                     self.menu_state = "login"
-                if self.quitter.draw(screen):
+                    self.clicked = True
+                if quitter.draw(screen):
                     self.run = False   # on sort du programme
+
 
             #créer un compte
             if self.menu_state == "Create_account":
+                #create button instances
+                jaidejauncompte =  button.Button(scr_sz('x')/2-115, scr_sz('y')/2-40, self.jaidejauncompte_img, 1)
+                quitter =  button.Button(scr_sz('x')/2-50, scr_sz('y')/2+20, self.exit_img, 1)
+
                 input = True #trouver comment ne pas avoir à utiliser ça #draw_text not working for some reasons
                 screen.blit(self.animal, (scr_sz('x')/2-540, scr_sz('y')-350))
                 Game.draw_text(self, screen, "Veuillez renseigner :", 160, 250)
@@ -110,11 +125,16 @@ class Game():
                 Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
                 Game.draw_text(self, screen, "age", 160, 400)
                 Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
-                if self.jaidejauncompte.draw(screen):
+                if jaidejauncompte.draw(screen) and self.clicked == False:
                     self.menu_state = "login"
+                    self.clicked = True
 
             #se connecter
             if self.menu_state == "login":
+                #create button instances
+                creeruncompte = button.Button(scr_sz('x')/2-115, scr_sz('y')/2-40, self.creeruncompte_img, 1)
+                quitter =  button.Button(scr_sz('x')/2-50, scr_sz('y')/2+20, self.exit_img, 1)
+
                 input = True
                 screen.blit(self.animal, (scr_sz('x')/2-540, scr_sz('y')-350))
                 Game.draw_text(self, screen, "Veuillez rentrer :", 160, 250)
@@ -122,8 +142,9 @@ class Game():
                 Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
                 Game.draw_text(self, screen, "mot de passe", 160, 250)
                 Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
-                if self.creeruncompte.draw(screen):
+                if creeruncompte.draw(screen) and self.clicked == False:
                     self.menu_state = "Create_account"
+                    self.clicked = True
             
 
 
@@ -160,6 +181,7 @@ class Game():
                             self.active = True
                         else :
                             self.active = False
+                    self.clicked = False
                 if event.type == pygame.KEYDOWN:
                     if self.active == True:
                         if event.key == pygame.K_BACKSPACE:
