@@ -1,4 +1,5 @@
 from mysql.connector import connect
+import PySimpleGUI as sg
 bdd = connect(host="127.0.0.1", user="root", password="root",database="Velonimo")
 
 # # Fonction pour voir si l'identifiant se trouve déjà dans la bdd
@@ -43,14 +44,15 @@ class Db_Handler():
     # Méthode pour ajouter/créer un compte à la bdd
     def create_acc(self, username: str, password: str, age: str):
         cursor = self.con.cursor()
-        query = f"INSERT TO Compte (com_user,com_mdp,com_age) VALUES (?,?,?);"
+        query = "INSERT INTO Compte (com_user,com_mdp,com_age) VALUES (%s,%s,%s);"
         cursor.execute(query,(username, password, age,))
+        self.con.commit()
         cursor.close
 
     # Méthode pour récupéré le mdp qui correspond à l'id rentré par l'utilisateur
     def password_for(self, username: str):
         cursor = self.con.cursor()
-        query = f"SELECT com_mdp FROM Compte WHERE com_user = ?;"
+        query = "SELECT com_mdp FROM Compte WHERE com_user = %s;"
         cursor.execute(query, (username,))
         result = cursor.fetchall()
         cursor.close()
@@ -60,9 +62,12 @@ class Db_Handler():
     # Méthode pour vérifier que l'id n'existe pas déjà dans la bdd
     def is_in_bdd(self, username: str):
         cursor = self.con.cursor()
-        query = f"SELECT * FROM Compte WHERE com_user = ?;"
+        query = "SELECT * FROM Compte WHERE com_user = %s;"
         cursor.execute(query, (username,))
         result = cursor.fetchall()
         cursor.close()
 
-        return len(result) == 1
+        if len(result) > 0 :
+            return True
+        else :
+            return False
