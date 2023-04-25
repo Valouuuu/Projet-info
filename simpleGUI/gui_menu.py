@@ -1,7 +1,6 @@
 import PySimpleGUI as sg
-from create_account import not_in_bdd
-import datetime
-#from create_account import create_acc
+import main_menu as acc
+
 connected = False
 
 sleep_time = 10
@@ -10,7 +9,8 @@ crea_acc_layout = [ [sg.Text('Création de compte !') , sg.Text(size=(15,1))],
           [sg.Text('Identifiant :'), sg.Input(key = '-ID-')],
           [sg.Text('Mot de passe :'), sg.Input(key = '-PW-')],
           [sg.Text('Comfiramation du mot de passe :'), sg.Input(key='-PWC-')],
-          [sg.Button('Créer mon compte')],
+          [sg.Text('Age'), sg.Input(key = '-AGE-')],
+          [sg.Button('Créer mon compte', key = '-CREATE-')],
           [sg.Button('Quitter')]
           ]
 
@@ -28,10 +28,10 @@ layout = [[sg.pin(sg.Column(main_layout, key = '-MAIN_MENU-')),
 
 window = sg.Window('Vélonimo' , layout, finalize=True, use_default_focus=False)
 
-id = window['-ID-']
-pw = window['-PW-']
-
-
+user = str(window['-ID-'])
+pw = str(window['-PW-'])
+pwc = str(window['-PWC-'])
+age = str(window['-AGE-'])
 
 
 while True : 
@@ -41,16 +41,15 @@ while True :
     if event == sg . WIN_CLOSED or event == 'Quitter':
         break
     
-    elif event == '-ACCOUNT-':
+    elif event == '-ACCOUNT-': # Ici on regarde pour changer de layout si l'utilisateur veut se créer un compte
         
         window['-MAIN_MENU-'].update(visible=False)
         window['-CREATE_ACCOUNT-'].update(visible=True)
-        
-        #On souhaite regarder si le pseudo est déja dans la bdd
-        #if not_in_bdd(id) is True :
-            
 
-           
+    acc.menu_not_connected(user, pw, age) # Ici on fait tourner une boucle dans lequel se trouve toutes nos fonctions, 
+                                            #qui correspond à l'inferface de connexion et qui s'arretera lorsque l'utilisateur sera connecté
+            
+            
 
 
 window.close()
