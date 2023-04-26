@@ -1,5 +1,7 @@
 import pygame
 import button
+import webbrowser
+
 # from screen import scr_sz
 
 def screen_size(size):
@@ -15,9 +17,10 @@ def screen_size(size):
 
 #game loop
 class Game():
-    def __init__(self):
+    def __init__(self, screen):
         self.run = True
         self.clock = pygame.time.Clock()
+        self.screen = screen
 
         #game variables
         self.game_paused = False
@@ -36,7 +39,7 @@ class Game():
 
 
         #define fonts
-        self.font = pygame.font.SysFont("arialblack", 40)
+        self.font = pygame.font.SysFont("arialblack", 25)
 
         #define colours
         self.text_col = (255, 255, 255)
@@ -46,6 +49,12 @@ class Game():
         self.jaidejauncompte_img = pygame.image.load("Menu Velonimo V2/images/button_jaidejauncompte.png").convert_alpha()
         self.exit_img = pygame.image.load("Menu Velonimo V2/images/button_exit.png").convert_alpha()
         self.icon_img = pygame.image.load("Menu Velonimo V2/images/ImageMenu.jpg").convert_alpha()
+        self.settings_img = pygame.image.load("Menu Velonimo V2/images/button_paramètres.png").convert_alpha()
+        self.play_img = pygame.image.load("Menu Velonimo V2/images/button_jouer.png").convert_alpha()
+        self.stats_img = pygame.image.load("Menu Velonimo V2/images/button_stats.png").convert_alpha()
+        self.rules_img = pygame.image.load("Menu Velonimo V2/images/button_regles.png").convert_alpha()
+        self.back_img = pygame.image.load("Menu Velonimo V2/images/button_retour.png").convert_alpha()
+        self.valider_img = pygame.image.load("Menu Velonimo V2/images/button_valider.png").convert_alpha()
 
         #load img
         self.title = pygame.image.load("Menu Velonimo V2/images/titre.png").convert_alpha()
@@ -55,125 +64,143 @@ class Game():
         pygame.display.set_icon(self.icon_img)
         
         #create button instances
-        # self.jaidejauncompte =  button.Button(scr_sz('x')/2-100, scr_sz('y')/2-100, jaidejauncompte_img, 1)
-        # self.creeruncompte = button.Button(scr_sz('x')/2-115, scr_sz('y')/2-40, creeruncompte_img, 1)
-        # self.quitter =  button.Button(scr_sz('x')/2-50, scr_sz('y')/2+20, exit_img, 1)
+        self.quitter =  button.Button(screen_size('x')/2-54/2, screen_size('y')/2+20, self.exit_img, 1)
 
         
-    def draw_text(self, screen, text, x, y):
-        img = self.font.render(text, True, self.text_col)
-        screen.blit(img, (x, y))
+    def draw_text(text, self, text_col, x, y):
+        img = self.font.render(text, True, text_col)
+        self.screen.blit(img, (x, y))
 
-    def create_input(self, screen, user_text, left, top, width, height):
-        self.input_rect = pygame.Rect(left, top, width, height)
-        text_surface = self.base_front.render(user_text, True, (0, 0, 0))
+    def create_input(self, text, x, y, width, height):
+        self.input_rect = pygame.Rect(x, y, width, height)
+        text_surface = self.base_front.render(text, True, (0, 0, 0))
         self.input_rect.w = max(100, text_surface.get_width() + 10)
 
-        pygame.draw.rect(screen, self.color, self.input_rect, 2)
-        screen.blit(text_surface, (self.input_rect.x+5, self.input_rect.y+5))
+        pygame.draw.rect(self.screen, self.color, self.input_rect, 2)
+        self.screen.blit(text_surface, (self.input_rect.x+5, self.input_rect.y+5))
 
         
 
 
-    def loop(self, screen) :
+    def loop(self) :
         while self.run:
             input = False
-            screen.fill((255, 255, 255))
-            Game.draw_text(self, screen, "Press SPACE to pause", 160, 250)
-            
-            
-
-            # #check if the user have an account
-            # if self.connected == False :
-            #     self.menu_state = "Connection"
+            self.screen.fill((255, 255, 255))
             
             #AccountMenu
             if self.menu_state == "Connection":
                 #create button instances
-                jaidejauncompte =  button.Button(screen_size('x')/2-100, screen_size('y')/2-100, self.jaidejauncompte_img, 1)
-                creeruncompte = button.Button(screen_size('x')/2-115, screen_size('y')/2-40, self.creeruncompte_img, 1)
-                quitter =  button.Button(screen_size('x')/2-50, screen_size('y')/2+20, self.exit_img, 1)
+                jaidejauncompte =  button.Button(screen_size('x')/2-157/2, screen_size('y')/2-100, self.jaidejauncompte_img, 1)
+                creeruncompte = button.Button(screen_size('x')/2-187/2, screen_size('y')/2-40, self.creeruncompte_img, 1)
 
                 #create background
-                screen.blit(self.title, (screen_size('x')/2-325, screen_size('y')/2-350))
-                screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
+                self.screen.blit(self.title, (screen_size('x')/2-325, screen_size('y')/2-350))
+                self.screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
 
-                if creeruncompte.draw(screen) and self.clicked == False:
+                if creeruncompte.draw(self.screen) and self.clicked == False:
                     self.menu_state = "Create_account"
                     self.clicked = True
                     # debug = self.font.render(self.menu_state, True, 'black')
                     # screen.blit(debug,(200 - debug.get_width() // 2, 150 - debug.get_height() // 2))   ce que tu as commit hier
-                if jaidejauncompte.draw(screen) and self.clicked == False:
+                if jaidejauncompte.draw(self.screen) and self.clicked == False:
                     self.menu_state = "login"
                     self.clicked = True
-                if quitter.draw(screen):
+                if self.quitter.draw(self.screen) and self.clicked == False:
                     self.run = False   # on sort du programme
 
 
             #créer un compte
             if self.menu_state == "Create_account":
                 #create button instances
-                jaidejauncompte =  button.Button(screen_size('x')/2-115, screen_size('y')/2-40, self.jaidejauncompte_img, 1)
-                quitter =  button.Button(screen_size('x')/2-50, screen_size('y')/2+20, self.exit_img, 1)
+                jaidejauncompte =  button.Button(screen_size('x')/2-157/2+100, screen_size('y')/2+20, self.jaidejauncompte_img, 1)
+                valider = button.Button(screen_size('x')/2-81/2-100, screen_size('y')/2+20, self.valider_img, 1)
 
-                input = True #trouver comment ne pas avoir à utiliser ça #draw_text not working for some reasons
-                screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
-                Game.draw_text(self, screen, "Veuillez renseigner :", 160, 250)
-                Game.draw_text(self, screen, "Identifiant", 160, 300)
-                Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
-                Game.draw_text(self, screen, "mot de passe", 160, 350)
-                Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
-                Game.draw_text(self, screen, "age", 160, 400)
-                Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
-                print(self.user_text)
-                if jaidejauncompte.draw(screen) and self.clicked == False:
+                input = True #trouver comment ne pas avoir à utiliser ça
+                self.screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
+                Game.draw_text("Veuillez renseigner :", self, "Black", screen_size('x')/2-100, screen_size('y')/2-300)
+                Game.draw_text("identifiant :", self, "Black", screen_size('x')/2-100, screen_size('y')/2-240)
+                Game.create_input(self, self.user_text, screen_size('x')/2-100, screen_size('y')/2-200, 140, 32)
+                id = self.user_text
+                Game.draw_text("mot de passe :", self, "Black", screen_size('x')/2-100, screen_size('y')/2-160)
+                Game.create_input(self, self.user_text, screen_size('x')/2-100, screen_size('y')/2-120, 140, 32)
+                mdp = self.user_text
+                Game.draw_text("age :",self, "Black", screen_size('x')/2-100, screen_size('y')/2-80)
+                Game.create_input(self, self.user_text, screen_size('x')/2-100, screen_size('y')/2-40, 140, 32)
+                age = self.user_text
+                if jaidejauncompte.draw(self.screen) and self.clicked == False:
                     self.menu_state = "login"
                     self.clicked = True
+                if valider.draw(self.screen) and self.clicked == False:
+                    #code récupération info et verif database 
+                    #passage direct (temporaire) au menu
+                    self.menu_state = "Connected"
 
             #se connecter
             if self.menu_state == "login":
                 #create button instances
-                creeruncompte = button.Button(screen_size('x')/2-115, screen_size('y')/2-40, self.creeruncompte_img, 1)
-                quitter =  button.Button(screen_size('x')/2-50, screen_size('y')/2+20, self.exit_img, 1)
+                creeruncompte = button.Button(screen_size('x')/2-187/2+100, screen_size('y')/2+20, self.creeruncompte_img, 1)
+                valider = button.Button(screen_size('x')/2-81/2-100, screen_size('y')/2+20, self.valider_img, 1)
 
                 input = True
-                screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
-                Game.draw_text(self, screen, "Veuillez rentrer :", 160, 250)
-                Game.draw_text(self, screen, "Identifiant", 160, 250)
-                Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
-                Game.draw_text(self, screen, "mot de passe", 160, 250)
-                Game.create_input(self, screen, self.user_text, 200, 200, 140, 32)
-                print(self.user_text)
-                if creeruncompte.draw(screen) and self.clicked == False:
+                self.screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
+                Game.draw_text("Veuillez rentrer :", self, "Black", screen_size('x')/2-100, screen_size('y')/2-220)
+                Game.draw_text("Identifiant", self, "Black", screen_size('x')/2-100, screen_size('y')/2-160)
+                Game.create_input(self, self.user_text, screen_size('x')/2-100, screen_size('y')/2-120, 140, 32)
+                id = self.user_text
+                Game.draw_text("mot de passe",self, "Black", screen_size('x')/2-100, screen_size('y')/2-80)
+                Game.create_input(self, self.user_text, screen_size('x')/2-100, screen_size('y')/2-40, 140, 32)
+                mdp = self.user_text
+                if creeruncompte.draw(self.screen) and self.clicked == False:
                     self.menu_state = "Create_account"
                     self.clicked = True
-            
+                if valider.draw(self.screen) and self.clicked == False:
+                    #code récupération info et verif database 
+                    #passage direct (temporaire) au menu
+                    self.menu_state = "Connected"
+
+            if self.menu_state == "Connected":
+                #create button instances
+                Jouer =  button.Button(screen_size('x')/2-96/2, screen_size('y')/2-160, self.play_img, 1)
+                # Paramètres = button.Button(screen_size('x')/2-147/2, screen_size('y')/2-160, self.settings_img, 1)
+                Regles = button.Button(screen_size('x')/2-105/2, screen_size('y')/2-100, self.rules_img, 1)
+                Statistiques = button.Button(screen_size('x')/2-119/2, screen_size('y')/2-40, self.stats_img, 1)
+
+                #create background
+                self.screen.blit(self.title, (screen_size('x')/2-325, screen_size('y')/2-350))
+                self.screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
+                
+                #create button
+                if Jouer.draw(self.screen) and self.clicked == False:
+                    self.menu_state = "play"
+                    self.clicked = True
+                # if Paramètres.draw(screen) and self.clicked == False:
+                #     self.menu_state = "settings"
+                #     self.clicked = True
+                if Regles.draw(self.screen) and self.clicked == False:
+                    webbrowser.open('https://www.gazette-capitainemeeple.fr/wp-content/uploads/2021/06/velonimo-regles.pdf')
+                if Statistiques.draw(self.screen) and self.clicked == False:
+                    self.menu_state = "stats"
+                    self.clicked = True
+                if self.quitter.draw(self.screen) and self.clicked == False:
+                    self.run = False   # on sort du programme
+
+            if self.menu_state == "play":
+                pass
 
 
-            #check if game is paused  #exemples de choses que l'on peut faire
-            # if self.game_paused == True:
-            #     #check menu state
-            #     if self.menu_state == "main":
-            #     #draw pause screen buttons
-            #         if self.resume_button.draw(screen):
-            #             self.game_paused = False
-            #         if self.options_button.draw(screen):
-            #             self.menu_state = "options"
-            #         if self.quit_button.draw(screen):
-            #             self.run = False
-            #         #check if the options menu is open
-            #     if self.menu_state == "options":
-            #     #draw the different options buttons
-            #         if self.video_button.draw(screen):
-            #             print("Video Settings")
-            #         if self.audio_button.draw(screen):
-            #             print("Audio Settings")
-            #         if self.keys_button.draw(screen):
-            #             print("Change Key Bindings")
-            #         if self.back_button.draw(screen):
-            #             self.menu_state = "main"
-            # else:
-            #     Game.draw_text(self, screen, "Press SPACE to pause", 160, 250)
+            if self.menu_state == "stats": #pas fini, il faut rajouter l'interaction avec la bdd
+                #create background
+                self.screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
+
+                Retour = button.Button(screen_size('x')/2-79/2, screen_size('y')/2+20, self.back_img, 1)
+                Game.draw_text("Victoires :", self, "Black", screen_size('x')/2-100, screen_size('y')/2-220)
+                Game.draw_text("nbrevictoiresici", self, "Black", screen_size('x')/2-100, screen_size('y')/2-160)
+                Game.draw_text("Défaites :", self, "Black", screen_size('x')/2-100, screen_size('y')/2-100)
+                Game.draw_text("nbredéfaitesici", self, "Black", screen_size('x')/2-100, screen_size('y')/2-40)
+                if Retour.draw(self.screen) and self.clicked == False:
+                    self.menu_state = "Connected"
+                    self.clicked = True
+
 
             #event handler                                     
             for event in pygame.event.get():
@@ -190,12 +217,8 @@ class Game():
                             self.user_text = self.user_text[:-1]
                         else:
                             self.user_text += event.unicode
-                    # if event.key == pygame.K_SPACE:
-                    #     self.game_paused = True
                 if event.type == pygame.QUIT:
                     self.run = False
-
-            # Game.create_input(self, screen, 200, 200, 140, 32)
 
             if self.active :
                 self.color = self.color_active
