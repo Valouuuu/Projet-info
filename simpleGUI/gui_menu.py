@@ -11,14 +11,14 @@ crea_acc_layout = [ [sg.Text('Création de compte !') , sg.Text(size=(15,1))],
           [sg.Text('Comfiramation du mot de passe :'), sg.Input(key='-PWC-')],
           [sg.Text('Age'), sg.Input(key = '-AGE-')],
           [sg.Button('Créer mon compte', key = '-CREATE-')],
-          [sg.Button('Quitter')]
+          [sg.Button('Quitter', key = '-QUIT-')]
           ]
 
 main_layout = [ [sg.Text('Bienvenu sur le Vélonimo !') , sg.Text(size=(15,1))],
           [sg.Text('Identifiant :'), sg.Input(key = '-ID-')],
           [sg.Text('Mot de passe :'), sg.Input(key = '-PW-')],
           [sg.Button('Connexion') , sg.Button('Créer un compte', key = '-ACCOUNT-')],
-          [sg.Button('Quitter')]
+          [sg.Button('Quitter', key = '-EXIT-')]
 
 ]
 
@@ -35,7 +35,7 @@ while True :
     event , values = window.read()
     
     
-    if event == sg . WIN_CLOSED or event == 'Quitter':
+    if event == sg . WIN_CLOSED or event == '-QUIT-' or event == '-EXIT-':
         break
     
     elif event == '-ACCOUNT-': # Ici on regarde pour changer de layout si l'utilisateur veut se créer un compte
@@ -46,7 +46,7 @@ while True :
     if event == '-LOGIN-':
             acc.login(values['-ID-'], values['-PW-'])
     if event == '-CREATE-':
-            acc.register(values['-NEW_ID-'], values['-NEW_PW-'], values['-AGE-']) 
+            acc.password_check(values['-NEW_ID-'], values['-NEW_PW-'], values['-PWC-'], values['-AGE-']) 
 
             
             

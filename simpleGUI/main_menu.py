@@ -9,7 +9,7 @@ def register(username: str, password: str, age: int):
         database_handler.create_acc(username, password, age)
         sg.popup("Connected")
     else:
-        sg.popup("utilisateur déjà dans la bdd")
+        sg.popup("Cet utilisateur existe déjà !")
 
 # Interface du menu connecté 
 def login(username: str, password: str):
@@ -18,10 +18,17 @@ def login(username: str, password: str):
     if password == password_db : # Ici on vérifie que le mdp enregistré correspond à celui rentré par l'utilisateur
             sg.popup("Connected")
     else :
-        sg.popup("Mot de passe incorrect ")
+        sg.popup("Mot de passe incorrect !")
 
 
-
+# Fonction pour vérifier la validité du mot de passe de comfirmation
+def password_check(username: str, password: str, password_check: str, age: str):
+    if password == password_check :
+        register(username, password, age)
+    else :
+        sg.popup("La confirmation de mot de passe est incorrecte !") 
+              
+         
 
 
 
