@@ -11,3 +11,6 @@ pygame.display.set_caption("Velonimo")
 game = Game(screen)
 
 game.loop()
+
+#close game window
+pygame.quit()

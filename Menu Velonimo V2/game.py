@@ -1,6 +1,7 @@
 import pygame
 import button
 import webbrowser
+import verif
 
 # from screen import scr_sz
 
@@ -65,22 +66,23 @@ class Game():
         
         #create button instances
         self.quitter =  button.Button(screen_size('x')/2-54/2, screen_size('y')/2+20, self.exit_img, 1)
-
         
+    def draw_title(text, self, text_col, x, y):
+        img = self.font.render(text, True, text_col)
+        width = img.get_width()
+        self.screen.blit(img, (x - (width / 2), y))
+
     def draw_text(text, self, text_col, x, y):
         img = self.font.render(text, True, text_col)
-        self.screen.blit(img, (x, y))
+        width = img.get_width()
+        self.screen.blit(img, (x , y))
 
     def create_input(self, text, x, y, width, height):
         self.input_rect = pygame.Rect(x, y, width, height)
         text_surface = self.base_front.render(text, True, (0, 0, 0))
         self.input_rect.w = max(100, text_surface.get_width() + 10)
-
         pygame.draw.rect(self.screen, self.color, self.input_rect, 2)
         self.screen.blit(text_surface, (self.input_rect.x+5, self.input_rect.y+5))
-
-        
-
 
     def loop(self) :
         while self.run:
@@ -100,14 +102,11 @@ class Game():
                 if creeruncompte.draw(self.screen) and self.clicked == False:
                     self.menu_state = "Create_account"
                     self.clicked = True
-                    # debug = self.font.render(self.menu_state, True, 'black')
-                    # screen.blit(debug,(200 - debug.get_width() // 2, 150 - debug.get_height() // 2))   ce que tu as commit hier
                 if jaidejauncompte.draw(self.screen) and self.clicked == False:
                     self.menu_state = "login"
                     self.clicked = True
                 if self.quitter.draw(self.screen) and self.clicked == False:
                     self.run = False   # on sort du programme
-
 
             #créer un compte
             if self.menu_state == "Create_account":
@@ -117,7 +116,7 @@ class Game():
 
                 input = True #trouver comment ne pas avoir à utiliser ça
                 self.screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
-                Game.draw_text("Veuillez renseigner :", self, "Black", screen_size('x')/2-100, screen_size('y')/2-300)
+                Game.draw_title("Veuillez renseigner :", self, "Black", screen_size('x')/2, screen_size('y')/2-300)
                 Game.draw_text("identifiant :", self, "Black", screen_size('x')/2-100, screen_size('y')/2-240)
                 Game.create_input(self, self.user_text, screen_size('x')/2-100, screen_size('y')/2-200, 140, 32)
                 id = self.user_text
@@ -130,10 +129,19 @@ class Game():
                 if jaidejauncompte.draw(self.screen) and self.clicked == False:
                     self.menu_state = "login"
                     self.clicked = True
-                if valider.draw(self.screen) and self.clicked == False:
+                if valider.draw(self.screen) and self.clicked == False and id and mdp and age :
                     #code récupération info et verif database 
+
+                    if verif.register(id, mdp, age) == True :
+                        self.menu_state = "Connected"
+                    else :
+                        pass
+
                     #passage direct (temporaire) au menu
-                    self.menu_state = "Connected"
+                    # self.menu_state = "Connected"
+                    pass
+                else :
+                    pass #mettre msg erreur
 
             #se connecter
             if self.menu_state == "login":
@@ -143,7 +151,7 @@ class Game():
 
                 input = True
                 self.screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
-                Game.draw_text("Veuillez rentrer :", self, "Black", screen_size('x')/2-100, screen_size('y')/2-220)
+                Game.draw_title("Veuillez rentrer :", self, "Black", screen_size('x')/2, screen_size('y')/2-220)
                 Game.draw_text("Identifiant", self, "Black", screen_size('x')/2-100, screen_size('y')/2-160)
                 Game.create_input(self, self.user_text, screen_size('x')/2-100, screen_size('y')/2-120, 140, 32)
                 id = self.user_text
@@ -187,16 +195,15 @@ class Game():
             if self.menu_state == "play":
                 pass
 
-
             if self.menu_state == "stats": #pas fini, il faut rajouter l'interaction avec la bdd
                 #create background
                 self.screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
 
                 Retour = button.Button(screen_size('x')/2-79/2, screen_size('y')/2+20, self.back_img, 1)
-                Game.draw_text("Victoires :", self, "Black", screen_size('x')/2-100, screen_size('y')/2-220)
-                Game.draw_text("nbrevictoiresici", self, "Black", screen_size('x')/2-100, screen_size('y')/2-160)
-                Game.draw_text("Défaites :", self, "Black", screen_size('x')/2-100, screen_size('y')/2-100)
-                Game.draw_text("nbredéfaitesici", self, "Black", screen_size('x')/2-100, screen_size('y')/2-40)
+                Game.draw_title("Victoires :", self, "Black", screen_size('x')/2, screen_size('y')/2-220)
+                Game.draw_title("nbrevictoiresici", self, "Black", screen_size('x')/2, screen_size('y')/2-160)
+                Game.draw_title("Défaites :", self, "Black", screen_size('x')/2, screen_size('y')/2-100)
+                Game.draw_title("nbredéfaitesici", self, "Black", screen_size('x')/2, screen_size('y')/2-40)
                 if Retour.draw(self.screen) and self.clicked == False:
                     self.menu_state = "Connected"
                     self.clicked = True
@@ -211,12 +218,15 @@ class Game():
                         else :
                             self.active = False
                     self.clicked = False
+                #handle text input
+                if event.type == pygame.TEXTINPUT:
+                    if self.active == True:
+                        self.user_text += event.text
+                #handle special keys
                 if event.type == pygame.KEYDOWN:
                     if self.active == True:
                         if event.key == pygame.K_BACKSPACE:
                             self.user_text = self.user_text[:-1]
-                        else:
-                            self.user_text += event.unicode
                 if event.type == pygame.QUIT:
                     self.run = False
 
@@ -225,17 +235,6 @@ class Game():
             else :
                 self.color = self.color_passive
                     
-            
-
-
-
 
             pygame.display.update()
             self.clock.tick(60)
-        
-
-
-
-
-#close game window
-pygame.quit()
