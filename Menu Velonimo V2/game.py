@@ -1,22 +1,24 @@
 import pygame
+from inputbox import InputBox
+from def_msg_to_screen import message_to_screen
+from screen import screen_size
 import button
+
+#for the rules
 import webbrowser
-import verif
 
-# from screen import scr_sz
-
-def screen_size(size):
-    screen_size  = pygame.display.get_desktop_sizes()
-    tu = screen_size[0]
-    x = tu[0]
-    y = tu[1]
-    if size == 'x':
-        return x
-    elif size == 'y':
-        return y
+pygame.init()
 
 
-#game loop
+# import verif
+
+# définition des couleurs utilisées
+blue = (0, 0, 255)
+black = (0, 0, 0)
+
+# définition des polices utilisées
+font = pygame.font.SysFont(None, 25)
+
 class Game():
     def __init__(self, screen):
         self.run = True
@@ -85,12 +87,61 @@ class Game():
         self.screen.blit(text_surface, (self.input_rect.x+5, self.input_rect.y+5))
 
     def loop(self) :
+        user_info = {}
+
+        # définition des champs de saisie
+        input_boxes_Create_account = [
+            InputBox(screen_size('x')/2-100, screen_size('y')/2-200, 140, 32),
+            InputBox(screen_size('x')/2-100, screen_size('y')/2-120, 140, 32),
+            InputBox(screen_size('x')/2-100, screen_size('y')/2-40, 140, 32)
+        ]
+        input_boxes_login = [
+            InputBox(screen_size('x')/2-100, screen_size('y')/2-120, 140, 32),
+            InputBox(screen_size('x')/2-100, screen_size('y')/2-40, 140, 32)
+        ]
+        # définition des libellés pour chaque champ de saisie
+        labels_Create_account = ['', '', '']
+        labels_login = ['', '']
+
+        retour = False
+        essai = False
+
+        # boucle de saisie des informations
         while self.run:
-            input = False
-            self.screen.fill((255, 255, 255))
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.run = False
+                #handle text input
+                # for box in input_boxes_Create_account:
+                #     box.handle_event(event)
+                #     if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                #         user_info[labels_Create_account[input_boxes_Create_account.index(box)]] = box.text
+                #     #"retour" button reset the input box
+                #     if retour == True:
+                #         box.text = ""
+
+                for box in input_boxes_login:
+                    box.handle_event(event)
+                    if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                        user_info[labels_login[input_boxes_login.index(box)]] = box.text
+                    #"retour" button reset the input box
+                    if retour == True:
+                        box.text = ""
+
+                
+                retour = False
+                        
+                #handle button
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.clicked = False
             
+            
+            self.screen.fill((255, 255, 255))  
+
             #AccountMenu
             if self.menu_state == "Connection":
+                input = True
+
                 #create button instances
                 jaidejauncompte =  button.Button(screen_size('x')/2-157/2, screen_size('y')/2-100, self.jaidejauncompte_img, 1)
                 creeruncompte = button.Button(screen_size('x')/2-187/2, screen_size('y')/2-40, self.creeruncompte_img, 1)
@@ -99,6 +150,7 @@ class Game():
                 self.screen.blit(self.title, (screen_size('x')/2-325, screen_size('y')/2-350))
                 self.screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
 
+                #button
                 if creeruncompte.draw(self.screen) and self.clicked == False:
                     self.menu_state = "Create_account"
                     self.clicked = True
@@ -111,60 +163,67 @@ class Game():
             #créer un compte
             if self.menu_state == "Create_account":
                 #create button instances
-                jaidejauncompte =  button.Button(screen_size('x')/2-157/2+100, screen_size('y')/2+20, self.jaidejauncompte_img, 1)
-                valider = button.Button(screen_size('x')/2-81/2-100, screen_size('y')/2+20, self.valider_img, 1)
+                Retour = button.Button(screen_size('x')/2-79/2+50, screen_size('y')/2+20, self.back_img, 1)
+                valider = button.Button(screen_size('x')/2-81/2-50, screen_size('y')/2+20, self.valider_img, 1)
 
-                input = True #trouver comment ne pas avoir à utiliser ça
+                #create background
                 self.screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
+
+                #text
                 Game.draw_title("Veuillez renseigner :", self, "Black", screen_size('x')/2, screen_size('y')/2-300)
                 Game.draw_text("identifiant :", self, "Black", screen_size('x')/2-100, screen_size('y')/2-240)
-                Game.create_input(self, self.user_text, screen_size('x')/2-100, screen_size('y')/2-200, 140, 32)
-                id = self.user_text
                 Game.draw_text("mot de passe :", self, "Black", screen_size('x')/2-100, screen_size('y')/2-160)
-                Game.create_input(self, self.user_text, screen_size('x')/2-100, screen_size('y')/2-120, 140, 32)
-                mdp = self.user_text
                 Game.draw_text("age :",self, "Black", screen_size('x')/2-100, screen_size('y')/2-80)
-                Game.create_input(self, self.user_text, screen_size('x')/2-100, screen_size('y')/2-40, 140, 32)
-                age = self.user_text
-                if jaidejauncompte.draw(self.screen) and self.clicked == False:
-                    self.menu_state = "login"
+
+                #input
+                for i, box in enumerate(input_boxes_Create_account):
+                    box.draw(self.screen, font)
+                    message_to_screen(labels_Create_account[i], black, (box.rect.x - 75, box.rect.y + 5), font, self.screen)
+
+                #button
+                if Retour.draw(self.screen) and self.clicked == False:
+                    self.menu_state = "Connection"
                     self.clicked = True
-                if valider.draw(self.screen) and self.clicked == False and id and mdp and age :
-                    #code récupération info et verif database 
+                    retour = True
+                if valider.draw(self.screen) and self.clicked == False :
+                    for key, value in user_info():
+                        print(key, ":", value)
 
-                    if verif.register(id, mdp, age) == True :
-                        self.menu_state = "Connected"
-                    else :
-                        pass
-
-                    #passage direct (temporaire) au menu
-                    # self.menu_state = "Connected"
-                    pass
-                else :
-                    pass #mettre msg erreur
 
             #se connecter
             if self.menu_state == "login":
                 #create button instances
-                creeruncompte = button.Button(screen_size('x')/2-187/2+100, screen_size('y')/2+20, self.creeruncompte_img, 1)
-                valider = button.Button(screen_size('x')/2-81/2-100, screen_size('y')/2+20, self.valider_img, 1)
+                Retour = button.Button(screen_size('x')/2-79/2+50, screen_size('y')/2+20, self.back_img, 1)
+                valider = button.Button(screen_size('x')/2-81/2-50, screen_size('y')/2+20, self.valider_img, 1)
 
-                input = True
+                #create background
                 self.screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
+
+                #text
                 Game.draw_title("Veuillez rentrer :", self, "Black", screen_size('x')/2, screen_size('y')/2-220)
                 Game.draw_text("Identifiant", self, "Black", screen_size('x')/2-100, screen_size('y')/2-160)
-                Game.create_input(self, self.user_text, screen_size('x')/2-100, screen_size('y')/2-120, 140, 32)
-                id = self.user_text
                 Game.draw_text("mot de passe",self, "Black", screen_size('x')/2-100, screen_size('y')/2-80)
-                Game.create_input(self, self.user_text, screen_size('x')/2-100, screen_size('y')/2-40, 140, 32)
-                mdp = self.user_text
-                if creeruncompte.draw(self.screen) and self.clicked == False:
-                    self.menu_state = "Create_account"
+
+                #input
+                for i, box in enumerate(input_boxes_login):
+                    box.draw(self.screen, font)
+                    message_to_screen(labels_login[i], black, (box.rect.x - 75, box.rect.y + 5), font, self.screen)
+        
+                #button
+                if Retour.draw(self.screen) and self.clicked == False:
+                    self.menu_state = "Connection"
                     self.clicked = True
+                    retour = True
                 if valider.draw(self.screen) and self.clicked == False:
-                    #code récupération info et verif database 
+                    essai = True
+                    
+                    
+
+                
+
+
                     #passage direct (temporaire) au menu
-                    self.menu_state = "Connected"
+                    # self.menu_state = "Connected"
 
             if self.menu_state == "Connected":
                 #create button instances
@@ -209,32 +268,12 @@ class Game():
                     self.clicked = True
 
 
-            #event handler                                     
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if input == True:
-                        if self.input_rect.collidepoint(event.pos):
-                            self.active = True
-                        else :
-                            self.active = False
-                    self.clicked = False
-                #handle text input
-                if event.type == pygame.TEXTINPUT:
-                    if self.active == True:
-                        self.user_text += event.text
-                #handle special keys
-                if event.type == pygame.KEYDOWN:
-                    if self.active == True:
-                        if event.key == pygame.K_BACKSPACE:
-                            self.user_text = self.user_text[:-1]
-                if event.type == pygame.QUIT:
-                    self.run = False
+                
+            #     # vérifie si l'utilisateur a appuyé sur la touche "Entrée" et imprime les valeurs de user_info
+            #     if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+            #         for key, value in user_info.items():
+            #             print(key, ":", value)
 
-            if self.active :
-                self.color = self.color_active
-            else :
-                self.color = self.color_passive
-                    
 
             pygame.display.update()
             self.clock.tick(60)
