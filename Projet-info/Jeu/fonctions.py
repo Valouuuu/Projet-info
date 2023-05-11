@@ -76,11 +76,11 @@ carte_50_baroudeur = pygame.image.load('Jeu/images_cartes/card_50_baroudeur.png'
 
     
     
-def afficher_deck(window,deck_list,j,x,y):
-    deck_display = deck_list[j-1]
+def afficher (window,decks_list,j,x,y):
+    deck_display = decks_list[j-1]
     a=0
     for i in deck_display:
-        window.blit(i.image,(x + 100*a, y))
+        window.blit(i,(x + 100*a, y))
         a+=1
     
 def init_deck(): 
@@ -115,4 +115,3 @@ def init_deck():
 
     
     return player_list
-
