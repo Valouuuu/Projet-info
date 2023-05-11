@@ -8,13 +8,13 @@ sleep_time = 10
 crea_acc_layout = [ [sg.Text('Création de compte !') , sg.Text(size=(15,1))],
           [sg.Text('Identifiant :'), sg.Input(key = '-NEW_ID-')],
           [sg.Text('Mot de passe :'), sg.Input(key = '-NEW_PW-')],
-          [sg.Text('Comfiramation du mot de passe :'), sg.Input(key='-PWC-')],
+          [sg.Text('Comfirmation du mot de passe :'), sg.Input(key='-PWC-')],
           [sg.Text('Age'), sg.Input(key = '-AGE-')],
           [sg.Button('Créer mon compte', key = '-CREATE-')],
           [sg.Button('Quitter', key = '-QUIT-')]
           ]
 
-main_layout = [ [sg.Text('Bienvenu sur le Vélonimo !') , sg.Text(size=(15,1))],
+main_layout = [ [sg.Text('Bienvenue sur Vélonimo !') , sg.Text(size=(15,1))],
           [sg.Text('Identifiant :'), sg.Input(key = '-ID-')],
           [sg.Text('Mot de passe :'), sg.Input(key = '-PW-')],
           [sg.Button('Connexion') , sg.Button('Créer un compte', key = '-ACCOUNT-')],

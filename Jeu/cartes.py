@@ -9,7 +9,7 @@ class Cartes():
 
     def __init__(self):
         self.con = connect(host="127.0.0.1", user="root", password="root",database="Velonimo")
-
+        self.deck = []
     # Méthode pour mélanger les cartes
     def Shuffle():
         
@@ -37,8 +37,8 @@ class Cartes():
                 p.deck.append(list[0])
                 del(list[0])
 
-        for p in player_list:
-            print(p.deck)
+        # for p in player_list:
+        #     print(p.deck)
 
     # Méthode pour pour récupérer la couleur d'une carte
     def color_card(self, card_id):
