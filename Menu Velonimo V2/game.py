@@ -1,8 +1,11 @@
 import pygame
 from inputbox import InputBox
+from db_handler import Db_Handler
 from def_msg_to_screen import message_to_screen
 from screen import screen_size
 import button
+
+database_handler = Db_Handler()
 
 #for the rules
 import webbrowser
@@ -59,6 +62,9 @@ class Game():
         self.back_img = pygame.image.load("Menu Velonimo V2/images/button_retour.png").convert_alpha()
         self.valider_img = pygame.image.load("Menu Velonimo V2/images/button_valider.png").convert_alpha()
 
+        #load error
+        self.error_img = pygame.image.load("Menu Velonimo V2/images/error.png").convert_alpha()
+
         #load img
         self.title = pygame.image.load("Menu Velonimo V2/images/titre.png").convert_alpha()
         self.animal = pygame.image.load("Menu Velonimo V2/images/animaux.jpg").convert_alpha()
@@ -104,7 +110,6 @@ class Game():
         labels_login = ['', '']
 
         retour = False
-        essai = False
 
         # boucle de saisie des informations
         while self.run:
@@ -112,13 +117,13 @@ class Game():
                 if event.type == pygame.QUIT:
                     self.run = False
                 #handle text input
-                # for box in input_boxes_Create_account:
-                #     box.handle_event(event)
-                #     if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                #         user_info[labels_Create_account[input_boxes_Create_account.index(box)]] = box.text
-                #     #"retour" button reset the input box
-                #     if retour == True:
-                #         box.text = ""
+                for box in input_boxes_Create_account:
+                    box.handle_event(event)
+                    if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                        user_info[labels_Create_account[input_boxes_Create_account.index(box)]] = box.text
+                    #"retour" button reset the input box
+                    if retour == True:
+                        box.text = ""
 
                 for box in input_boxes_login:
                     box.handle_event(event)
@@ -165,6 +170,9 @@ class Game():
                 #create button instances
                 Retour = button.Button(screen_size('x')/2-79/2+50, screen_size('y')/2+20, self.back_img, 1)
                 valider = button.Button(screen_size('x')/2-81/2-50, screen_size('y')/2+20, self.valider_img, 1)
+                
+                #notif erreur
+                error = button.Button(screen_size('x')/2-150/2-50, screen_size('y')/2+20, self.error_img, 1)
 
                 #create background
                 self.screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
@@ -185,16 +193,33 @@ class Game():
                     self.menu_state = "Connection"
                     self.clicked = True
                     retour = True
-                if valider.draw(self.screen) and self.clicked == False :
-                    for key, value in user_info():
-                        print(key, ":", value)
 
+                if valider.draw(self.screen) and self.clicked == False :
+                    #on récupère le texte de chaque input
+                    id = ['','','']
+                    k = 0
+                    for box in input_boxes_Create_account:
+                        id[k] = box.text
+                        k += 1
+
+                    
+
+                    #on créé le compte (+ vérification si déjà créé ou si cases vides)
+                    if database_handler.is_in_bdd(id[0]) == False and id[0] and id[1] and id[2] and int(id[2]):
+                        database_handler.create_acc(id[0], id[1], int(id[2]))
+                        self.menu_state = "Connected"
+                        print("ha" + str(id))
+                    else:
+                        error.draw(self.screen)
+                        print("da"+ str(id))
 
             #se connecter
             if self.menu_state == "login":
                 #create button instances
                 Retour = button.Button(screen_size('x')/2-79/2+50, screen_size('y')/2+20, self.back_img, 1)
                 valider = button.Button(screen_size('x')/2-81/2-50, screen_size('y')/2+20, self.valider_img, 1)
+
+                
 
                 #create background
                 self.screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
@@ -207,7 +232,7 @@ class Game():
                 #input
                 for i, box in enumerate(input_boxes_login):
                     box.draw(self.screen, font)
-                    message_to_screen(labels_login[i], black, (box.rect.x - 75, box.rect.y + 5), font, self.screen)
+                    message_to_screen(labels_login[i], black, (box.rect.x - 75, box.rect.y + 5), font, self.screen)      
         
                 #button
                 if Retour.draw(self.screen) and self.clicked == False:
@@ -215,15 +240,22 @@ class Game():
                     self.clicked = True
                     retour = True
                 if valider.draw(self.screen) and self.clicked == False:
-                    essai = True
                     
-                    
+                    #on récupère le texte de chaque input
+                    id = ['','','']
+                    k = 0
+                    for box in input_boxes_Create_account:
+                        id[k] = box.text
+                        k += 1
 
-                
+                    #on vérifie les informations (+ vérif si cases vides)
+                    if database_handler.is_in_bdd(id[0]) and id[0] and id[1] and id[2] and id[2] is int:
+                        password_db = database_handler.password_for(id[0])
+                        if id[1] == password_db : # Ici on vérifie que le mdp enregistré correspond à celui rentré par l'utilisateur
+                            self.menu_state == "Connected"
+                    else :
+                        error.draw(self.screen)
 
-
-                    #passage direct (temporaire) au menu
-                    # self.menu_state = "Connected"
 
             if self.menu_state == "Connected":
                 #create button instances
@@ -273,7 +305,6 @@ class Game():
             #     if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
             #         for key, value in user_info.items():
             #             print(key, ":", value)
-
 
             pygame.display.update()
             self.clock.tick(60)

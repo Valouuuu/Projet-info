@@ -1,4 +1,5 @@
 from mysql.connector import connect
+import PySimpleGUI as sg
 bdd = connect(host="127.0.0.1", user="root", password="root",database="Velonimo")
 
 # On créer une classe pour pouvoir gérer toutes des requêtes SQL
@@ -14,7 +15,7 @@ class Db_Handler():
         self.con.commit()
         cursor.close
 
-    # Méthode pour récupéré le mdp qui correspond à l'id rentré par l'utilisateur
+    # Méthode pour récupérer le mdp qui correspond à l'id rentré par l'utilisateur
     def password_for(self, username: str):
         cursor = self.con.cursor()
         query = "SELECT com_mdp FROM Compte WHERE com_user = %s;"
