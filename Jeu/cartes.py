@@ -86,6 +86,11 @@ class Cartes():
         self.couleur = couleur
         self.valeur = valeur
         self.image = pygame.image.load('Jeu/images_cartes/card_'+ valeur + '_' + couleur +'.png').convert() 
+        self.position_x = 0
+        self.position_y = 0
+        self.selected = False
+        self.motion = False
+
 
 
 
@@ -100,6 +105,7 @@ def creer_cartes(couleur,nb_cartes, liste_des_cartes): #Ici on créer les cartes
  
 def create_all_cards(): # Ici la fonction permet de créer toutes les cartes du jeu et de les stocker dans la liste all_cards
     
+    # On aura besoin de retirer le dernier element 'None' de la liste à chaque fois 
     all_cards = []
     all_cards.append(creer_cartes('baroudeur',6,all_cards))
     del(all_cards[len(all_cards) - 1])
@@ -147,12 +153,15 @@ def afficher_deck(window,deck_list,j,x,y): # Ici on veut afficher la main du jou
     for i in deck_display: # On parcourt la main (i est un objet)
         
         window.blit(i.image,(x + 80*a, y)) # On afficher la carte aux coordonées souhaitées pour la première cartes puis en décalé 
+        i.position_x = x + 80*a # On met à jour la position de la carte en x
+        i.position_y = y # On met à jour la position de la carte en y
         a = a + 1
         
         
-def afficher_mains_dos_cartes(window):
+def afficher_mains_dos_cartes(window): # Affiche les mains cachées des joueurs qui ne jouent pas 
+    
     carte_dos = pygame.image.load('Jeu/images_cartes/card_back.png').convert()
-    # pygame. transform. rotate (image, degré)
+  
     # On affiche les cartes au dos, à gauche 
     #On ulisite la même structure à gauche, en haut et à droite
     a = 0
