@@ -202,16 +202,12 @@ class Game():
                         id[k] = box.text
                         k += 1
 
-                    
-
                     #on créé le compte (+ vérification si déjà créé ou si cases vides)
                     if database_handler.is_in_bdd(id[0]) == False and id[0] and id[1] and id[2] and int(id[2]):
                         database_handler.create_acc(id[0], id[1], int(id[2]))
                         self.menu_state = "Connected"
-                        print("ha" + str(id))
                     else:
                         error.draw(self.screen)
-                        print("da"+ str(id))
 
             #se connecter
             if self.menu_state == "login":
@@ -219,8 +215,9 @@ class Game():
                 Retour = button.Button(screen_size('x')/2-79/2+50, screen_size('y')/2+20, self.back_img, 1)
                 valider = button.Button(screen_size('x')/2-81/2-50, screen_size('y')/2+20, self.valider_img, 1)
 
+                #notif erreur
+                error = button.Button(screen_size('x')/2-150/2-50, screen_size('y')/2+20, self.error_img, 1)
                 
-
                 #create background
                 self.screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
 
@@ -240,19 +237,20 @@ class Game():
                     self.clicked = True
                     retour = True
                 if valider.draw(self.screen) and self.clicked == False:
-                    
+
                     #on récupère le texte de chaque input
-                    id = ['','','']
+                    id = ['','']
                     k = 0
-                    for box in input_boxes_Create_account:
+                    for box in input_boxes_login:
                         id[k] = box.text
                         k += 1
 
                     #on vérifie les informations (+ vérif si cases vides)
-                    if database_handler.is_in_bdd(id[0]) and id[0] and id[1] and id[2] and id[2] is int:
+                    if database_handler.is_in_bdd(id[0]) and id[0] and id[1]:
+                        print("a")
                         password_db = database_handler.password_for(id[0])
                         if id[1] == password_db : # Ici on vérifie que le mdp enregistré correspond à celui rentré par l'utilisateur
-                            self.menu_state == "Connected"
+                            self.menu_state = "Connected"
                     else :
                         error.draw(self.screen)
 

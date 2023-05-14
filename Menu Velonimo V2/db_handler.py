@@ -20,10 +20,9 @@ class Db_Handler():
         cursor = self.con.cursor()
         query = "SELECT com_mdp FROM Compte WHERE com_user = %s;"
         cursor.execute(query, (username,))
-        result = cursor.fetchall()
+        result = cursor.fetchone()
         cursor.close()
-        
-        return dict(result[0])['com_mdp']
+        return result[0]
     
     # Méthode pour vérifier que l'id n'existe pas déjà dans la bdd
     def is_in_bdd(self, username: str):
