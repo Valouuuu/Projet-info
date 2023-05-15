@@ -1,7 +1,7 @@
 from mysql.connector import connect
 
 # On créer une classe pour pouvoir gérer toutes des requêtes SQL du jeu 
-class Db_Handler():
+class Db_Handler_Game():
     def __init__(self):
         self.con = connect(host="127.0.0.1", user="root", password="root",database="Velonimo") # Connexion à la bdd
     
