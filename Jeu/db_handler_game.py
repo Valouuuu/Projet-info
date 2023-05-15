@@ -1,12 +1,11 @@
 from mysql.connector import connect
-import PySimpleGUI as sg
-bdd = connect(host="127.0.0.1", user="root", password="root",database="Velonimo")
 
-# On créer une classe pour pouvoir gérer toutes des requêtes SQL
+# On créer une classe pour pouvoir gérer toutes des requêtes SQL du jeu 
 class Db_Handler():
     def __init__(self):
         self.con = connect(host="127.0.0.1", user="root", password="root",database="Velonimo") # Connexion à la bdd
-            
+    
+    # Méthode pour récuprérer la couleur d'une carte       
     def color(self, id : int):
         
         cursor = self.con.cursor()
@@ -17,6 +16,7 @@ class Db_Handler():
         
         return result
     
+    # Méthode pour récuprérer la valeur d'une carte
     def value(self, id : int):
         
         cursor = self.con.cursor()
@@ -27,6 +27,7 @@ class Db_Handler():
         
         return result
     
+    # Méthode pour récuprérer le nom de l'image d'une carte
     def image(self, id : int):
         
         cursor = self.con.cursor()
@@ -37,8 +38,8 @@ class Db_Handler():
         
         return result
     
-db = Db_Handler()
-print(db.image(34))
+# db = Db_Handler()
+# print(db.image(34))
         
         
 
