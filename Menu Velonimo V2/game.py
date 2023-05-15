@@ -279,7 +279,13 @@ class Game():
                     self.run = False   # on sort du programme
 
             if self.menu_state == "play":
-                pass
+                #create button instances
+                Retour = button.Button(screen_size('x')/2-79/2+50, screen_size('y')/2+20, self.back_img, 1)
+                
+                if Retour.draw(self.screen) and self.clicked == False:
+                    self.menu_state = "Connected"
+                    self.clicked = True
+                    retour = True
 
             if self.menu_state == "stats": #pas fini, il faut rajouter l'interaction avec la bdd
                 #create background
