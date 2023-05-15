@@ -146,7 +146,7 @@ class Event():
             
             joueur = 1
             
-            c.afficher_mains_dos_cartes()
+            c.afficher_mains_dos_cartes(self.screen)
             liste_des_cartes = c.create_all_cards()
             decks_joueurs = c.init_decks(liste_des_cartes)
             
