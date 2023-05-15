@@ -246,11 +246,8 @@ class Game():
                         k += 1
 
                     #on vérifie les informations (+ vérif si cases vides)
-                    if database_handler.is_in_bdd(id[0]) and id[0] and id[1]:
-                        print("a")
-                        password_db = database_handler.password_for(id[0])
-                        if id[1] == password_db : # Ici on vérifie que le mdp enregistré correspond à celui rentré par l'utilisateur
-                            self.menu_state = "Connected"
+                    if database_handler.is_in_bdd(id[0]) and id[0] and id[1] and id[1] == database_handler.password_for(id[0]): # Ici on vérifie que le mdp enregistré correspond à celui rentré par l'utilisateur
+                        self.menu_state = "Connected"
                     else :
                         error.draw(self.screen)
 

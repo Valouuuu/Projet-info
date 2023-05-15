@@ -80,16 +80,33 @@ import fonctions as f
 
 class Cartes():
     
-    def __init__(self,couleur,valeur): # On créé les cartes avec les paramètres couleur, valeur et le code qui permet d'afficher l'image de la carte 
-        
-        pygame.init()
+    def __init__(self,x,y,couleur,valeur): # On créé les cartes avec les paramètres couleur, valeur et le code qui permet d'afficher l'image de la carte 
         self.couleur = couleur
         self.valeur = valeur
         self.image = pygame.image.load('Jeu/images_cartes/card_'+ valeur + '_' + couleur +'.png').convert() 
-        self.position_x = 0
-        self.position_y = 0
-        self.selected = False
-        self.motion = False
+        self.rect = self.image.get_rect()
+        self.clicked = False
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
+    
+    def draw(self, surface):
+        action = False
+        #get mouse position
+        pos = pygame.mouse.get_pos()
+
+        #check mouseover and clicked conditions
+        if self.rect.collidepoint(pos):
+            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
+                self.clicked = True
+                action = True
+
+        if pygame.mouse.get_pressed()[0] == 0:
+            self.clicked = False
+
+        #draw button on screen
+        surface.blit(self.image, (self.rect.x, self.rect.y))
+
+        return action
 
 
 
@@ -128,7 +145,7 @@ def create_all_cards(): # Ici la fonction permet de créer toutes les cartes du 
     return all_cards # Retourne la liste des cartes 
 
 
-def init_deck(cartes): # Cette fonction permet d'innitialiser les main des joueur de manière aléatoire
+def init_decks(cartes): # Cette fonction permet d'innitialiser les main des joueur de manière aléatoire
 
     player_deck = [] # liste contenant les mains des joueurs
     
