@@ -291,11 +291,15 @@ class Game():
                 #create background
                 self.screen.blit(self.animal, (screen_size('x')/2-540, screen_size('y')-350))
 
+                win_lose = database_handler.recup_win_loose(id[0])
+                win = win_lose[0]
+                lose = win_lose[1]
+                
                 Retour = button.Button(screen_size('x')/2-79/2, screen_size('y')/2+20, self.back_img, 1)
                 Game.draw_title("Victoires :", self, "Black", screen_size('x')/2, screen_size('y')/2-220)
-                Game.draw_title("nbrevictoiresici", self, "Black", screen_size('x')/2, screen_size('y')/2-160)
+                Game.draw_title(str(win), self, "Black", screen_size('x')/2, screen_size('y')/2-160)
                 Game.draw_title("Défaites :", self, "Black", screen_size('x')/2, screen_size('y')/2-100)
-                Game.draw_title("nbredéfaitesici", self, "Black", screen_size('x')/2, screen_size('y')/2-40)
+                Game.draw_title(str(lose), self, "Black", screen_size('x')/2, screen_size('y')/2-40)
                 if Retour.draw(self.screen) and self.clicked == False:
                     self.menu_state = "Connected"
                     self.clicked = True

@@ -36,3 +36,51 @@ class Db_Handler():
             return True
         else :
             return False
+        
+    def recup_win_loose(self, username : str):
+        
+        liste = []
+        
+        cursor = self.con.cursor()
+        query = "SELECT com_win FROM Compte WHERE com_user = %s;"
+        cursor.execute(query, (username,))
+        result = cursor.fetchone()
+       
+        liste.append(result[0])
+        
+        query = "SELECT com_lose FROM Compte WHERE com_user = %s;"
+        cursor.execute(query, (username,))
+        result = cursor.fetchone()
+        
+        liste.append(result[0])
+        
+        cursor.close()
+        
+        return liste 
+    
+    def add_win_lose(self ,username : str ,win : int ,lose :int ):
+        
+        db = Db_Handler()
+        
+        win_lose = db.recup_win_loose('Lau')
+        
+        win_up = win_lose[0] + win
+        lose_up = win_lose[1] + lose
+        
+        if win != 0 :
+            cursor = self.con.cursor()
+            query = "UPDATE Compte SET com_win = %s WHERE com_user = %s;"
+            cursor.execute(query,(win_up ,username))
+            self.con.commit()
+            cursor.close
+            
+        if lose != 0 :
+            cursor = self.con.cursor()
+            query = "UPDATE Compte SET com_lose = %s WHERE com_user = %s;"
+            cursor.execute(query,(lose_up, username))
+            self.con.commit()
+            cursor.close
+
+
+
+
