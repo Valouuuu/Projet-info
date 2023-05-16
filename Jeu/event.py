@@ -4,6 +4,7 @@ from def_msg_to_screen import message_to_screen
 from screen import screen_size
 import button
 import cartes as c
+import player as p
 
 pygame.init()
 
@@ -153,6 +154,22 @@ class Event():
         
         #create button instances
         self.quitter =  button.Button(screen_size('x')/2-54/2, screen_size('y')/2+20, self.exit_img, 1)
+
+        #startingdeck :
+        self.deck
+
+    def convertcardandcreate(deck : list):
+        list = []
+        for id in range(deck):
+            list += pygame.image.load('Jeu/images_cartes/card_'+ Db_Handler_Game.image(id) +'.png').convert() 
+        return list
+
+    def deckplayers(self):
+        player_list = p.deckplayer(4)
+        self.joueur_1 = player_list[0]
+        self.joueur_2 = player_list[1]
+        self.joueur_3 = player_list[2]
+        self.joueur_4 = player_list[3]
         
     def draw_title(text, self, text_col, x, y):
         img = self.font.render(text, True, text_col)
@@ -171,7 +188,7 @@ class Event():
         pygame.draw.rect(self.screen, self.color, self.input_rect, 2)
         self.screen.blit(text_surface, (self.input_rect.x+5, self.input_rect.y+5))
 
-    def loop(self) :
+    def loop(self, convertcardandcreate, deckplayers) :
 
         retour = False
 
@@ -189,6 +206,12 @@ class Event():
 
             #Jeu
             if self.game_paused == False:
+                convertcardandcreate(self.joueur_1)
+                convertcardandcreate(self.joueur_2)
+                convertcardandcreate(self.joueur_3)
+                convertcardandcreate(self.joueur_4)
+                
+                
                 input = True
                 #create card instances
                 carte_1_blue =  button.Button(screen_size('x')/2-157/2, screen_size('y')/2-100, self.carte_1_blue, 1)
