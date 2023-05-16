@@ -19,45 +19,6 @@ list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
 
 
 
-# player_list = []
-
-# On initialise les mains
-
-# for b in range(a):
-#     player_list.append(Joueur(b))
-
-# On mélange la liste pour mélanger les cartes
-
-# random.shuffle(list)   
-
-# On distribue les cartes 
-
-# for q in range (11): 
-#     for p in player_list:
-#         p.deck.append(list[0])
-#         del(list[0])
-
-# for p in player_list:
-#     print(p.deck)
-
-# Code de 3 à 5 joueurs
-
-playing = 0
-
-
- 
-u = True
-
-
-
-# print("C'est au joueur",playing,"de jouer !")
-# print("Voici votre main")
-# print(player_list[playing].deck)
-# print("la pioche est :",list)
-
-# On créé une boucle qui correspond au à la partie (ajouter boucle manche, tour, tour de joueur)
-
-
 def manche(akiletour, player_list,):
     player_order = akiletour(player_list) #ordre des joueurs
     winner_order = player_order #initialisation du premier joueur

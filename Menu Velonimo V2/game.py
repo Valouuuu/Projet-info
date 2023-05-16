@@ -6,7 +6,7 @@ from screen import screen_size
 import button
 import cartes 
 import player
-import distribuer_cartes
+import manche_akiletour
 
 database_handler = Db_Handler()
 
@@ -289,9 +289,12 @@ class Game():
                 
                 a_qui_de_jouer = 1
                 
+                manche = 1
+                
+                tour = 1
+                
                 cartes.afficher_mains_dos_cartes(self.screen) # Affiche les mains cachées des joueurs
                 
-                center = 0 # On définit la valeur du centre à 0
 
                 self.quitter =  button.Button(screen_size('x')-100, screen_size('y')-50, self.exit_img, 1) # On change de place le bouton
                 
@@ -306,12 +309,16 @@ class Game():
                 if self.quitter.draw(self.screen) and self.clicked == False:
                     self.run = False   # on sort du programme
                 
+                
                 if player_1.a_mon_tour == True : # C'est au joueur 1 de jouer
                     
-                    button_deck = cartes.convert_card_button(player_1.deck)
-                    cartes.afficher_deck(self.screen , button_deck , a_qui_de_jouer , 300 , screen_size('y')-260) 
-                        
-                
+                    button_deck = cartes.convert_card_button(player_1.deck) # On convertit les cartes en bouttons
+                    
+                    cartes.afficher_deck(self.screen , button_deck , a_qui_de_jouer , 300 , screen_size('y')-260) # On affiche les boutton
+                    
+                    center = 0 #valeur du centre au début du tour
+                   
+                    
                 
                 # if Retour.draw(self.screen) and self.clicked == False:
                 #     self.menu_state = "Connected"
