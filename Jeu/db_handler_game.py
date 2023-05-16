@@ -27,7 +27,7 @@ class Db_Handler_Game():
         
         return result
     
-    # Méthode pour récuprérer le nom de l'image d'une carte
+    # Méthode pour récupérer le nom de l'image d'une carte
     def image(self, id : int):
         
         cursor = self.con.cursor()

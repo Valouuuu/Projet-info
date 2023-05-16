@@ -5,10 +5,10 @@ db_handler = Db_Handler_Game()
 
 class Joueur():
     
-    def __init__ (self,joueur):
+    def __init__ (self, joueur):
         
         self.numero_joueur = joueur # Le numéro de joueur
-        # self.pseudo = pseudo    # Nom du joueur (améloration)
+        # self.pseudo = pseudo    # Nom du joueur (amélioration)
         self.deck = []  # Main du joueur 
         self.points = 0 # Nombre de points du joueur 
         self.à_mon_tour = False # Permet de savoir si c'est au joueur de jouer
@@ -67,16 +67,6 @@ class Joueur():
         if calculer_value(self.combinaison) > center_value :
             
             return True
-        
-                
-                
-        
-           
-            
-        
-
-
-
 
 def deckplayer(nbreplayer):
     
@@ -86,11 +76,6 @@ def deckplayer(nbreplayer):
 
     #init var
     player_list = []
-
-    # #Pour nbreplayer Joueur : # Problème met des entiers dans la liste au début alors qu'on veut remplir player_list avec les objets joueurs
-    # for k in range(nbreplayer):
-    #     player_list.append(k+1)
-
 
     #On initialise les mains
     for b in range(nbreplayer): # Selon le nombre de joueurs
@@ -104,7 +89,5 @@ def deckplayer(nbreplayer):
         for p in player_list:  # Pour chaque joueurs 
             p.deck.append(list[0]) # On ajoute des cartes dans les decks des joueurs
             del(list[0]) # On supprime la carte qu'on vient d'ajouter pour avoir la liste des cartes restantes si besoin
-
-    # for p in player_list:
-    #     print(p.deck)
-
+    
+    return player_list
