@@ -8,18 +8,18 @@ import button
 
 db_handler_game = Db_Handler_Game()
 
-
+# Fonction pour convertir une carte en bouton
 def convert_card_button(deck_joueur: list):
     
-    button_card_list = []
+    button_card_list = [] # On initialise une liste
     
-    for carte in deck_joueur :
+    for carte in deck_joueur : # On prend chaque carte de la main
         
-        tuple = db_handler_game.image(carte)
+        tuple = db_handler_game.image(carte) # On récupère le nom de son image
         
         nom_carte = tuple[0]
         
-        button_card_list.append(pygame.image.load('Jeu/images_cartes/'+ str(nom_carte)).convert())
+        button_card_list.append(pygame.image.load('Jeu/images_cartes/'+ str(nom_carte)).convert()) # On ajoute son image à la liste finale 
     
     return button_card_list
 
