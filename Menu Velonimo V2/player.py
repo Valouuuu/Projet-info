@@ -11,7 +11,7 @@ class Joueur():
         # self.pseudo = pseudo    # Nom du joueur (amélioration)
         self.deck = []  # Main du joueur 
         self.points = 0 # Nombre de points du joueur 
-        self.à_mon_tour = False # Permet de savoir si c'est au joueur de jouer
+        self.a_mon_tour = False # Permet de savoir si c'est au joueur de jouer
         self.combinaison = [] # Combinaison en cours
     
     # Méthode pour compter le nombre de points
@@ -69,8 +69,10 @@ class Joueur():
             
             return True # on renvoit Vrai
     
-
-        
+# Fonction pour reset le compteur pour savoir qui doit jouer 
+def ordre_passage(a_qui_de_jouer : int): # On prend en paramètre qui doit jouer      
+    if a_qui_de_jouer >= 5 : # On regarde si le compteur va au dessus de 4 (4 joueurs)
+        return 1 # On réinitialise le à qui de jouer au premier joueur 
 
     
         
@@ -79,10 +81,9 @@ class Joueur():
         
            
             
-# Fonction pour initialiser les mains        
+        
 def deckplayer(nbreplayer : int):
     
-    # Lise contenant l'id des cartes de la bdd
     list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
             ,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40
             ,41,42,43,44,45,46,47,48,48,50,51,52,53,54,55]

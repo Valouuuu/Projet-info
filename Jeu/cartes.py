@@ -2,11 +2,7 @@ from mysql.connector import connect
 import pygame
 import random
 import fonctions as f 
-from db_handler_game import Db_Handler_Game
-import button
 
-
-db_handler_game = Db_Handler_Game()
 
 
 # class Cartes():
@@ -166,36 +162,30 @@ db_handler_game = Db_Handler_Game()
     
 #     return player_deck # On retourne la liste complète des main des joueurs 
 
-def convert_card_button(deck_joueur: list):
+# def convert_card_button(deck_joueur: list):
     
-    button_card_list = []
+#     button_card_list = []
     
-    for carte in deck_joueur :
-        
-        tuple = db_handler_game.image(carte)
-        
-        nom_carte = tuple[0]
-        
-        button_card_list.append(pygame.image.load('Jeu/images_cartes/'+str(nom_carte) +'.png')).convert()
+#     for carte in deck_joueur :
+#         pass
     
-    return button_card_list
 
 
 
 
 
 
-def afficher_deck(window,deck : list,j : int,x : int,y : int): # Ici on veut afficher la main du joueur (avec des coordonnées pour placer la main dans l'écran)
+
+def afficher_deck(window,deck_list,j,x,y): # Ici on veut afficher la main du joueur (avec des coordonnées pour placer la main dans l'écran)
     # On a pris en paramètre la liste qui contenait toutes les main des joueurs (qui sont des listes),
     # j qui est le joueur à qui on doit afficher sa main
-    
-    for button in deck: # On parcourt la main 
+    deck_display = deck_list[j-1] # Ici on récupère la première liste (la prmière main qu'on veut afficher) pour la parcourir 
+    a = 0
+    for i in deck_display: # On parcourt la main (i est un objet)
         
-        position_x = x + 80*a # On met à jour la position de la carte en x
-        position_y = y # On met à jour la position de la carte en y
-        
-        button.Button(position_x, position_y, button , 1) # On afficher la carte aux coordonées souhaitées pour la première cartes puis en décalé 
-    
+        window.blit(i.image,(x + 80*a, y)) # On afficher la carte aux coordonées souhaitées pour la première cartes puis en décalé 
+        i.position_x = x + 80*a # On met à jour la position de la carte en x
+        i.position_y = y # On met à jour la position de la carte en y
         a = a + 1
         
         

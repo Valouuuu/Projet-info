@@ -5,6 +5,8 @@ from def_msg_to_screen import message_to_screen
 from screen import screen_size
 import button
 import cartes 
+import player
+import distribuer_cartes
 
 database_handler = Db_Handler()
 
@@ -280,17 +282,32 @@ class Game():
                     self.run = False   # on sort du programme
 
             if self.menu_state == "play":
-                #create button instances
-                Retour = button.Button(screen_size('x')-100, screen_size('y')-50, self.back_img, 1)
+                # Retour = button.Button(screen_size('x')-100, screen_size('y')-50, self.back_img, 1)#create button instances
+                
+                a_qui_de_jouer = 1
                 
                 cartes.afficher_mains_dos_cartes(self.screen) # Affiche les mains cachées des joueurs
                 
+                center = 0
+                
+                player_list = player.deckplayer(4)
+                
                 self.quitter =  button.Button(screen_size('x')-100, screen_size('y')-50, self.exit_img, 1) # On change de place le bouton
+                
+                player_1 = player_list[0]
+                player_2 = player_list[1]
+                player_3 = player_list[2]
+                player_4 = player_list[3]
+                
+                player_1.a_mon_tour = True 
                 
                 if self.quitter.draw(self.screen) and self.clicked == False:
                     self.run = False   # on sort du programme
                 
-                
+                if player_1.a_mon_tour == True :
+                    
+                    button_deck = cartes.convert_card_button(player_1.deck)
+                    cartes.afficher_deck(button_deck)
                 
                 # if Retour.draw(self.screen) and self.clicked == False:
                 #     self.menu_state = "Connected"
