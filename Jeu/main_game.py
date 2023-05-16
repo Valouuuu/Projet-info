@@ -213,6 +213,7 @@ class Game():
                     retour = True
 
                 if valider.draw(self.screen) and self.clicked == False :
+                    self.clicked = True
                     #on récupère le texte de chaque input
                     id = ['','','']
                     k = 0
@@ -255,7 +256,7 @@ class Game():
                     self.clicked = True
                     retour = True
                 if valider.draw(self.screen) and self.clicked == False:
-
+                    self.clicked = True
                     #on récupère le texte de chaque input
                     id = ['','']
                     k = 0

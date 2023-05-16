@@ -58,5 +58,3 @@ def player_turn(centervalue : int,deck : []):
                 w = False  
         else:
             w = False
-
-player_turn(5, [1])
