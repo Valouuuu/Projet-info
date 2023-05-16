@@ -175,32 +175,32 @@ import fonctions as f
 #         a = a + 1
         
         
-# def afficher_mains_dos_cartes(window): # Affiche les mains cachées des joueurs qui ne jouent pas 
+def afficher_mains_dos_cartes(window): # Affiche les mains cachées des joueurs qui ne jouent pas 
     
-#     carte_dos = pygame.image.load('Jeu/images_cartes/card_back.png').convert()
+    carte_dos = pygame.image.load('Jeu/images_cartes/card_back.png').convert()
   
-#     # On affiche les cartes au dos, à gauche 
-#     #On ulisite la même structure à gauche, en haut et à droite
-#     a = 0
-#     carte_dos = pygame. transform. rotate (carte_dos, 90) # On tourne la carte encore de 90° vers la droite 
-#     for i in range (11):
+    # On affiche les cartes au dos, à gauche 
+    #On ulisite la même structure à gauche, en haut et à droite
+    a = 0
+    carte_dos = pygame. transform. rotate (carte_dos, 90) # On tourne la carte encore de 90° vers la droite 
+    for i in range (11):
         
-#         window.blit(carte_dos,(f.screen_size('x') - 260 , 100 + 40*a)) # On affiche les cartes une part une de la même façon que pour afficher les mains
-#         a = a + 1
+        window.blit(carte_dos,(f.screen_size('x') - 260 , 100 + 40*a)) # On affiche les cartes une part une de la même façon que pour afficher les mains
+        a = a + 1
     
-#     a = 0 
-#     carte_dos = pygame. transform. rotate (carte_dos, 90) # On tourne la carte encore de 90° vers la droite   
-#     for i in range (11):
+    a = 0 
+    carte_dos = pygame. transform. rotate (carte_dos, 90) # On tourne la carte encore de 90° vers la droite   
+    for i in range (11):
          
-#         window.blit(carte_dos,(300 + 80*a , 0 )) # On affiche les cartes une part une de la même façon que pour afficher les mains
-#         a = a + 1
+        window.blit(carte_dos,(300 + 80*a , 0 )) # On affiche les cartes une part une de la même façon que pour afficher les mains
+        a = a + 1
       
-#     a = 0 
-#     carte_dos = pygame. transform. rotate (carte_dos, 90) # On tourne la carte de 90° vers la droite 
-#     for i in range (11):
+    a = 0 
+    carte_dos = pygame. transform. rotate (carte_dos, 90) # On tourne la carte de 90° vers la droite 
+    for i in range (11):
         
-#         window.blit(carte_dos,(0 , 100 + 40*a)) # On affiche les cartes une part une de la même façon que pour afficher les mains
-#         a = a + 1
+        window.blit(carte_dos,(0 , 100 + 40*a)) # On affiche les cartes une part une de la même façon que pour afficher les mains
+        a = a + 1
     
 
 

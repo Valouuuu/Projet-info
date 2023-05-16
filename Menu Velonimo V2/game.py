@@ -4,6 +4,7 @@ from db_handler import Db_Handler
 from def_msg_to_screen import message_to_screen
 from screen import screen_size
 import button
+import cartes 
 
 database_handler = Db_Handler()
 
@@ -280,12 +281,21 @@ class Game():
 
             if self.menu_state == "play":
                 #create button instances
-                Retour = button.Button(screen_size('x')/2-79/2+50, screen_size('y')/2+20, self.back_img, 1)
+                Retour = button.Button(screen_size('x')-100, screen_size('y')-50, self.back_img, 1)
                 
-                if Retour.draw(self.screen) and self.clicked == False:
-                    self.menu_state = "Connected"
-                    self.clicked = True
-                    retour = True
+                cartes.afficher_mains_dos_cartes(self.screen) # Affiche les mains cachées des joueurs
+                
+                self.quitter =  button.Button(screen_size('x')-100, screen_size('y')-50, self.exit_img, 1) # On change de place le bouton
+                
+                if self.quitter.draw(self.screen) and self.clicked == False:
+                    self.run = False   # on sort du programme
+                
+                
+                
+                # if Retour.draw(self.screen) and self.clicked == False:
+                #     self.menu_state = "Connected"
+                #     self.clicked = True
+                #     retour = True
 
             if self.menu_state == "stats": #pas fini, il faut rajouter l'interaction avec la bdd
                 #create background

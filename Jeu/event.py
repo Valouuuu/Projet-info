@@ -1,5 +1,5 @@
 import pygame
-from db_handler import Db_Handler
+from db_handler_game import Db_Handler_Game
 from def_msg_to_screen import message_to_screen
 from screen import screen_size
 import button

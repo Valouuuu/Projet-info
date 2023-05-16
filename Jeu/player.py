@@ -12,7 +12,7 @@ class Joueur():
         self.deck = []  # Main du joueur 
         self.points = 0 # Nombre de points du joueur 
         self.à_mon_tour = False # Permet de savoir si c'est au joueur de jouer
-        self.combinaison = []
+        self.combinaison = [] # Combinaison en cours
     
     # Méthode pour compter le nombre de points
     def calcul_points(self, points_gagnés):
@@ -55,18 +55,24 @@ class Joueur():
                 if db_handler.value(self.combinaison[i]) < db_handler.value(self.combinaison[i + 1]): # On regarde quelle est la plus petite valeur de la combinaison (pour une combinaison de valeur on pourrait directement prendre la valeur de n'importe quelle carte )
                     value_petite_carte = db_handler.value(self.combinaison[i]) # On la définit comme étant la plus petite valeur 
                 
-            # On calcule la valeur de la combinaison 
+            # On calcule la valeur de la combinaison (au final on est pas obligé de distinguer les cas 'couleur' 'valeur')
             if verif_comb[1] == 'value' : 
                 value_combinaison = len(self.combinaison)*10 + value_petite_carte
             
             if verif_comb[1] == 'color' :
                 value_combinaison = len(self.combinaison)*10 + value_petite_carte
-                
+     
+    # Méthode pour valider la combinaison, pour la poser au centre              
     def bonne_combi(self, center_value : int, calculer_value, verif_combi):
         
-        if calculer_value(self.combinaison) > center_value :
+        if calculer_value(self.combinaison) > center_value : # On regarde si la valeur de la combinaison est supérieure à celle du centre 
             
-            return True
+            return True # on renvoit Vrai
+    
+
+        
+
+    
         
                 
                 
@@ -74,26 +80,17 @@ class Joueur():
            
             
         
-
-
-
-
-def deckplayer(nbreplayer):
+def deckplayer(nbreplayer : int):
     
     list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
             ,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40
             ,41,42,43,44,45,46,47,48,48,50,51,52,53,54,55]
 
-    #init var
+    # Liste contenant les objets joueurs
     player_list = []
 
-    # #Pour nbreplayer Joueur : # Problème met des entiers dans la liste au début alors qu'on veut remplir player_list avec les objets joueurs
-    # for k in range(nbreplayer):
-    #     player_list.append(k+1)
-
-
     #On initialise les mains
-    for b in range(nbreplayer): # Selon le nombre de joueurs
+    for b in range(nbreplayer): # Selon le nombre de joueurs, on le fixe à 4
         player_list.append(Joueur(b)) # On remplit notre liste de joueurs avec les objets joueurs  
 
     # On mélange la liste pour mélanger les cartes
