@@ -185,17 +185,19 @@ def convert_card_button(deck_joueur: list):
 
 
 
-def afficher_deck(window ,deck : list,j : int,x : int,y : int): # Ici on veut afficher la main du joueur (avec des coordonnées pour placer la main dans l'écran)
+def afficher_deck(window ,deck : list,j : int,xpos : int,ypos : int, y : int): # Ici on veut afficher la main du joueur (avec des coordonnées pour placer la main dans l'écran)
     
     a = -1
     
     for card in deck: # On parcourt la main 
         a = a + 1
-        position_x = x + 80*a # On met à jour la position de la carte en x
-        position_y = y # On met à jour la position de la carte en y
-        if button.Button(position_x, position_y, card , 1).draw(window) :# On afficher la carte aux coordonées souhaitées pour la première cartes puis en décalé 
-            pass
-            
+        position_x = xpos + 80*a # On met à jour la position de la carte en x
+        position_y = ypos # On met à jour la position de la carte en y
+        if button.Button(position_x, position_y-y, card , 1).draw(window) :# On afficher la carte aux coordonées souhaitées pour la première cartes puis en décalé 
+            if y == 10 :
+                y = 0
+            else :
+                y = 10
         
         
     

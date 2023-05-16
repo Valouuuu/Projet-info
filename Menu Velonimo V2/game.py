@@ -117,11 +117,21 @@ class Game():
 
         retour = False
 
+        y = 0
+
         # boucle de saisie des informations
         while self.run:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.run = False
+                #afficher menu interaction touche echap
+                if event.type == pygame.KEYDOWN :
+                    if event.key == pygame.K_ESCAPE and self.menu_state == "play":
+                        if self.game_paused == False:
+                            self.game_paused = True
+                        else :
+                            self.game_paused = False
+
                 #handle text input
                 for box in input_boxes_Create_account:
                     box.handle_event(event)
@@ -146,8 +156,10 @@ class Game():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.clicked = False
             
-            
-            self.screen.fill((255, 255, 255))  
+            if self.game_paused == True and self.menu_state == "play":
+                self.screen.fill((220, 220, 220, 128)) 
+            else :
+                self.screen.fill((255, 255, 255))  
 
             #AccountMenu
             if self.menu_state == "Connection":
@@ -285,38 +297,38 @@ class Game():
                     self.run = False   # on sort du programme
 
             if self.menu_state == "play":
-                # Retour = button.Button(screen_size('x')-100, screen_size('y')-50, self.back_img, 1)#create button instances
-                
-                a_qui_de_jouer = 1
-                
-                cartes.afficher_mains_dos_cartes(self.screen) # Affiche les mains cachées des joueurs
-                
-                center = 0 # On définit la valeur du centre à 0
-
-                self.quitter =  button.Button(screen_size('x')-100, screen_size('y')-50, self.exit_img, 1) # On change de place le bouton
-                
-                # On configure nos joueurs
-                player_1 = self.player_list[0]
-                player_2 = self.player_list[1]
-                player_3 = self.player_list[2]
-                player_4 = self.player_list[3]
-                
-                player_1.a_mon_tour = True # On initialise pour commencer le tour au joueur 1
-                
-                if self.quitter.draw(self.screen) and self.clicked == False:
-                    self.run = False   # on sort du programme
-                
-                if player_1.a_mon_tour == True : # C'est au joueur 1 de jouer
+                if self.game_paused == False :
                     
-                    button_deck = cartes.convert_card_button(player_1.deck)
-                    cartes.afficher_deck(self.screen , button_deck , a_qui_de_jouer , 300 , screen_size('y')-260) 
-                        
+                    a_qui_de_jouer = 1
+                    
+                    cartes.afficher_mains_dos_cartes(self.screen) # Affiche les mains cachées des joueurs
+                    
+                    center = 0 # On définit la valeur du centre à 0
+                    
+                    # On configure nos joueurs
+                    player_1 = self.player_list[0]
+                    player_2 = self.player_list[1]
+                    player_3 = self.player_list[2]
+                    player_4 = self.player_list[3]
+                    
+                    player_1.a_mon_tour = True # On initialise pour commencer le tour au joueur 1
                 
+                    
+                    if player_1.a_mon_tour == True : # C'est au joueur 1 de jouer
+                        button_deck = cartes.convert_card_button(player_1.deck)
+                        cartes.afficher_deck(self.screen , button_deck , a_qui_de_jouer , 300 , screen_size('y')-260,y)
                 
-                # if Retour.draw(self.screen) and self.clicked == False:
-                #     self.menu_state = "Connected"
-                #     self.clicked = True
-                #     retour = True
+                if self.game_paused == True :
+                    #create button instances
+                    Retour = button.Button(screen_size('x')/2-79/2, screen_size('y')/2-40, self.back_img, 1)
+                    Quitter = button.Button(screen_size('x')/2-119/2, screen_size('y')/2-40, self.exit_img, 1)
+
+                    if Retour.draw(self.screen) and self.clicked == False:
+                        self.game_paused = False
+                        self.clicked = True
+                    if self.quitter.draw(self.screen) and self.clicked == False:
+                        self.menu_state = "Connected"   # retour au menu
+                        self.clicked = True
 
             if self.menu_state == "stats": #pas fini, il faut rajouter l'interaction avec la bdd
                 #create background
@@ -334,13 +346,6 @@ class Game():
                 if Retour.draw(self.screen) and self.clicked == False:
                     self.menu_state = "Connected"
                     self.clicked = True
-
-
-                
-            #     # vérifie si l'utilisateur a appuyé sur la touche "Entrée" et imprime les valeurs de user_info
-            #     if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-            #         for key, value in user_info.items():
-            #             print(key, ":", value)
 
             pygame.display.update()
             self.clock.tick(60)
