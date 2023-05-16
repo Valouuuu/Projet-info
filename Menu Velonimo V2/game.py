@@ -78,6 +78,9 @@ class Game():
         #create button instances
         self.quitter =  button.Button(screen_size('x')/2-54/2, screen_size('y')/2+20, self.exit_img, 1)
         
+        # Créer la liste des joueurs
+        self.player_list = player.deckplayer(4)
+        
     def draw_title(text, self, text_col, x, y):
         img = self.font.render(text, True, text_col)
         width = img.get_width()
@@ -288,26 +291,27 @@ class Game():
                 
                 cartes.afficher_mains_dos_cartes(self.screen) # Affiche les mains cachées des joueurs
                 
-                center = 0
-                
-                player_list = player.deckplayer(4)
-                
+                center = 0 # On définit la valeur du centre à 0
+
                 self.quitter =  button.Button(screen_size('x')-100, screen_size('y')-50, self.exit_img, 1) # On change de place le bouton
                 
-                player_1 = player_list[0]
-                player_2 = player_list[1]
-                player_3 = player_list[2]
-                player_4 = player_list[3]
+                # On configure nos joueurs
+                player_1 = self.player_list[0]
+                player_2 = self.player_list[1]
+                player_3 = self.player_list[2]
+                player_4 = self.player_list[3]
                 
-                player_1.a_mon_tour = True 
+                player_1.a_mon_tour = True # On initialise pour commencer le tour au joueur 1
                 
                 if self.quitter.draw(self.screen) and self.clicked == False:
                     self.run = False   # on sort du programme
                 
-                if player_1.a_mon_tour == True :
+                if player_1.a_mon_tour == True : # C'est au joueur 1 de jouer
                     
                     button_deck = cartes.convert_card_button(player_1.deck)
-                    cartes.afficher_deck(button_deck)
+                    cartes.afficher_deck(self.screen , button_deck , a_qui_de_jouer , 300 , screen_size('y')-260) 
+                        
+                
                 
                 # if Retour.draw(self.screen) and self.clicked == False:
                 #     self.menu_state = "Connected"
