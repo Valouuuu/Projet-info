@@ -1,6 +1,6 @@
 import pygame
 from inputbox import InputBox
-from db_handler import Db_Handler
+from db_handler_menu import Db_Handler
 from def_msg_to_screen import message_to_screen
 from screen import screen_size
 import button
@@ -317,8 +317,25 @@ class Game():
                 
                     
                     if player_1.a_mon_tour == True : # C'est au joueur 1 de jouer
+                        
                         button_deck = cartes.convert_card_button(player_1.deck)
-                        cartes.afficher_deck(self.screen , button_deck , a_qui_de_jouer , 300 , screen_size('y')-260,y)
+                        # cartes.afficher_deck(self.screen , button_deck , a_qui_de_jouer , 300 , screen_size('y')-260,y)
+                        a = -1
+                        
+                        for carte in button_deck :
+                            
+                            a = a + 1
+                            
+                            position_x = 300 + 80*a # On met à jour la position de la carte en x
+                            position_y = screen_size('y')-260 # On met à jour la position de la carte en y
+                            
+                            if button.Button(position_x, position_y-y, carte , 1).draw(self.screen) :# On afficher la carte aux coordonées souhaitées pour la première cartes puis en décalé 
+                                
+                                if y == 10 :
+                                    y = 0
+                                
+                                else :
+                                    y = 10                        
                 
                 if self.game_paused == True :
                     #create button instances
