@@ -176,7 +176,7 @@ def convert_card_button(deck_joueur: list):
         
         nom_carte = tuple[0]
         
-        button_card_list.append(pygame.image.load('Jeu/images_cartes/'+str(nom_carte) +'.png')).convert()
+        button_card_list.append(pygame.image.load('Jeu/images_cartes/'+ str(nom_carte)).convert())
     
     return button_card_list
 
@@ -185,18 +185,20 @@ def convert_card_button(deck_joueur: list):
 
 
 
-def afficher_deck(window,deck : list,j : int,x : int,y : int): # Ici on veut afficher la main du joueur (avec des coordonnées pour placer la main dans l'écran)
-    # On a pris en paramètre la liste qui contenait toutes les main des joueurs (qui sont des listes),
-    # j qui est le joueur à qui on doit afficher sa main
+def afficher_deck(window ,deck : list,j : int,x : int,y : int): # Ici on veut afficher la main du joueur (avec des coordonnées pour placer la main dans l'écran)
     
-    for button in deck: # On parcourt la main 
-        
+    a = -1
+    
+    for card in deck: # On parcourt la main 
+        a = a + 1
         position_x = x + 80*a # On met à jour la position de la carte en x
         position_y = y # On met à jour la position de la carte en y
+        if button.Button(position_x, position_y, card , 1).draw(window) :# On afficher la carte aux coordonées souhaitées pour la première cartes puis en décalé 
+            pass
+            
         
-        button.Button(position_x, position_y, button , 1) # On afficher la carte aux coordonées souhaitées pour la première cartes puis en décalé 
+        
     
-        a = a + 1
         
         
 def afficher_mains_dos_cartes(window): # Affiche les mains cachées des joueurs qui ne jouent pas 
