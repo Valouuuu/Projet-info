@@ -332,11 +332,11 @@ class Game():
                             
                             if button.Button(position_x, position_y-y, carte , 1).draw(self.screen) :# On afficher la carte aux coordonées souhaitées pour la première cartes puis en décalé 
                                 
-                                if y == 10 :
+                                if y == -10 :
                                     y = 0
                                 
                                 else :
-                                    y = 10                        
+                                    y = -10                        
                 
                 if self.game_paused == True :
                     #create button instances

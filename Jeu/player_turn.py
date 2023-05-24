@@ -1,4 +1,4 @@
-def player_turn(centervalue : int,deck : []):
+def player_turn(centervalue : int,deck : list):
     w = True
     while w == True :
         add_value = 0

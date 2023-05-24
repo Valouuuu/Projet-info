@@ -10,7 +10,7 @@ class Joueur ():
         self.pseudo = pseudo             
         self.deck = []
         self.points = 0
-    def points(self, points_gagnés):
+    def score(self, points_gagnés):
         self.points += points_gagnés
         
 list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
@@ -19,18 +19,12 @@ list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
 
 
 
-def manche(akiletour, player_list,):
+def manche(akiletour, player_list):
     player_order = akiletour(player_list) #ordre des joueurs
-    winner_order = player_order #initialisation du premier joueur
+    winner = player_order[0] #initialisation du premier joueur
     for k in range (5): #boucle de la manche
-        winner_order = turn(player_list, player_turn, winner_order[1], player_order) #ordre des gagnants
-        for p in player_list: #distributions des points à la fin du tour
-            for i in range(len(player_list)):
-                if p == winner_order[i]:
-                    p.points(k+1)
-        
-        
-
+        winner_order = turn(player_turn, winner_order[0], player_order) #ordre des gagnants
+        player_list[winner_order[0]].score(k+1) #distributions des points à la fin du tour
 
 def akiletour(player_list, nb_joueur): #créé un ordre des joueurs aléatoire 
     player_list = []
@@ -40,8 +34,4 @@ def akiletour(player_list, nb_joueur): #créé un ordre des joueurs aléatoire
     for p in player_list:
         l += player_list[p]
     random.shuffle(l)
-    for q in range (11): 
-        for p in player_list:
-            p.deck.append(list[0])
-            del(list[0])
     return l
