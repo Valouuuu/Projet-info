@@ -1,5 +1,5 @@
 from manche_akiletour import Joueur
-joueur = Joueur()
+
 
 def main(playeralive,player_order, player_turn,winner):
     loop = True
@@ -20,6 +20,8 @@ def main(playeralive,player_order, player_turn,winner):
                 
                 
 def turn(player_turn,winner, player_order):
+    for player in player_order :
+        joueur = Joueur(player)
     center = 0 #valeur du centre au début du tour
     # for p in player_list: #le gagnant de la dernière manche joue (sauf si c'est la 1ère manche le plus jeune)
     winner_order = []
