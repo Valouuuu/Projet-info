@@ -13,11 +13,8 @@ class Joueur():
         self.points = 0 # Nombre de points du joueur 
         self.a_mon_tour = False # Permet de savoir si c'est au joueur de jouer
         self.combinaison = [] # Combinaison en cours
-    
-    # Méthode pour compter le nombre de points
-    def calcul_points(self, points_gagnés):
-        self.points += points_gagnés
-
+        self.passed = False
+        
     # Méthode pour vérifié si la combinaison de carte est valide, et savoir de quelle combinaison il s'agit (couleur ou valeur)   
     def verif_combi(self): # On prend en paramètre les cartes sélectionnées 
         
@@ -61,6 +58,8 @@ class Joueur():
             
             if verif_comb[1] == 'color' :
                 value_combinaison = len(self.combinaison)*10 + value_petite_carte
+        
+        return value_combinaison
      
     # Méthode pour valider la combinaison, pour la poser au centre              
     def bonne_combi(self, center_value : int, calculer_value, verif_combi):
@@ -86,7 +85,7 @@ def deckplayer(nbreplayer : int):
     
     list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
             ,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40
-            ,41,42,43,44,45,46,47,48,48,50,51,52,53,54,55]
+            ,41,42,43,44,45,46,47,48,50,51,52,53,54,55]
 
     # Liste contenant les objets joueurs
     player_list = []

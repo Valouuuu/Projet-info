@@ -38,6 +38,17 @@ class Db_Handler_Game():
         
         return result
     
+    # Méthode pour récupérer l'id d'une carte en ayant sa couleur et sa valeur 
+    def id(self,color: str, value : int):
+        cursor = self.con.cursor()
+        query = "SELECT car_id FROM Cartes WHERE car_color = %s and car_value = %s;"
+        cursor.execute(query, (color,value,))
+        result = cursor.fetchone()
+        cursor.close()
+        
+        return result 
+        
+    
 # db = Db_Handler()
 # print(db.image(34))
         

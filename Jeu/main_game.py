@@ -330,13 +330,15 @@ class Game():
                             position_x = 300 + 80*a # On met à jour la position de la carte en x
                             position_y = screen_size('y')-260 # On met à jour la position de la carte en y
                             
-                            if button.Button(position_x, position_y-y, carte , 1).draw(self.screen) :# On afficher la carte aux coordonées souhaitées pour la première cartes puis en décalé 
+                            if button.Button(position_x, position_y-y, carte , 1).draw(self.screen) :# On affiche la carte aux coordonées souhaitées pour la première cartes puis en décalé 
                                 
                                 if y == 10 :
                                     y = 0
                                 
                                 else :
-                                    y = 10                        
+                                    y = 10    
+                                    
+                                                       
                 
                 if self.game_paused == True :
                     #create button instances
