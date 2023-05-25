@@ -102,8 +102,9 @@ def player_turn( center_value: int, player):
                 if count == len(color_list): # Si on a bien des cartes de même couleur alors on fait le calcul de la valeur totale des cartes
                     add_value = n*10 + min
                     
-                
+                print(add_value)
                 if add_value > center_value : # Si la valleur de la combinaison est plus grande que celle du centre 
+                    
                     center_value = center_value + add_value # On ajoute la valeur de la combinaison à celle du centre 
                     
                     p = len(color_list)
@@ -127,23 +128,18 @@ def player_turn( center_value: int, player):
 
 
 def fin_de_tour(player_list: list, player):# Dans cette fontion, on veut déterminer si les trois joueurs avant celui qui joue ont passé leur tour pour savoir si la manche s'arrête
+    
     liste_joueur = []
-    count = 0 # On initialise le compteur 
     
     for joueurs in player_list :
         
         if joueurs != player:
             liste_joueur.append(joueurs)
     
-    for joueur in player_list :# On parcourt la lise du reste des joueurs 
-        
-        if joueur.passed == True : # Si je joueur a passé 
-            count = count + 1 # On rajoute 1 au compteur
-            
-    if count == 3 or player.deck == []: # Si le compteur est égal à 3, alors tous les joueurs ont passé leur tour
-        return True # La fonction renvoit Vrai
+    if all(joueur.passed == True for joueur in liste_joueur) == True :
+        return True
     else:
-        return False # Sinon elle renvoit Faux 
+        return False
     
 
 def calcul_points(player_list: list, player, manche : int):
@@ -160,13 +156,10 @@ def calcul_points(player_list: list, player, manche : int):
 
 def player_order(player_list: list,starter_player):
     
-   liste = player_list[player_list.index(starter_player):] + player_list[:player_list.index(starter_player)]
+    index_joueur_avant = player_list.index(starter_player)
+    liste = player_list[index_joueur_avant + 1:] + player_list[:index_joueur_avant +1]
    
-   return liste
-
-
-
-
+    return liste
 
 
 
@@ -176,3 +169,31 @@ def del_player(player_list: list, player):
     for i in range (len(player_list)):
         if player_list[i] == player :
             del(player_list[i])
+            
+            
+def tour_de_table(player_list: list, manche):
+    
+    center_value = 0
+    tour = True
+
+    while tour == True :
+
+
+        for joueur in player_list :
+            
+            center_value = player_turn(center_value,joueur)
+            print(fin_de_tour(player_list,joueur))
+            
+            
+            if joueur.deck == []:
+                calcul_points(player_list,joueur,manche)
+                del_player(player_list,joueur)
+            
+            if fin_de_tour(player_list,joueur) == True :
+                for jr in player_list:
+                    jr.passed = False
+                player_list = player_order(player_list,joueur)
+                tour = False
+                
+    return player_list
+                

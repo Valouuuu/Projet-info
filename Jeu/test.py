@@ -19,28 +19,17 @@ player_list = player.deckplayer(4)
 #         player_start = joueur.numero_joueur
 #         break
 
+
+
+
 for manche in range (5):
     
-    center_value = 0
-    tour = True
-    
-    while tour == True :
-        reset = False
-    
-        for joueur in player_list :
-            
-            if pt.fin_de_tour(player_list,joueur) == True :
-                reset = True 
-                center_value = 0
-                player_list = pt.player_order(player_list,joueur)
-                
-            if reset != True :
-                center_value = pt.player_turn(center_value,joueur)
-                
-                if joueur.deck == []:
-                    pt.calcul_points(player_list,joueur,manche)
-                    pt.del_player(player_list,joueur)
-
+    run = True    
+    while run == True :
+        
+        playerlist = pt.tour_de_table(player_list,manche)
+        
         if len(player_list) == 1 :
-            print("C'est la fin de la manche",manche)
-            tour = False
+            run = False
+        
+            

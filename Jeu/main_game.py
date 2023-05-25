@@ -6,7 +6,7 @@ from screen import screen_size
 import button
 import cartes 
 import player
-import manche_akiletour
+
 
 database_handler = Db_Handler()
 

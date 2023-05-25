@@ -3,6 +3,7 @@ import player_turn
 import turn
 
 
+
 # J'ai rajouté une autre classe joueur pour différencier les comptes des joueurs avec les joueurs de la partie en cours 
 
 class Joueur ():
@@ -26,12 +27,12 @@ def manche(akiletour, player_list):
         winner_order = turn(player_turn, winner_order[0], player_order) #ordre des gagnants
         player_list[winner_order[0]].score(k+1) #distributions des points à la fin du tour
 
-def akiletour(player_list, nb_joueur): #créé un ordre des joueurs aléatoire 
-    player_list = []
-    for b in range(nb_joueur):
-        player_list.append(Joueur(b))
-    l = []
-    for p in player_list:
-        l += player_list[p]
-    random.shuffle(l)
-    return l
+# def akiletour(player_list, nb_joueur): #créé un ordre des joueurs aléatoire 
+#     player_list = []
+#     for b in range(nb_joueur):
+#         player_list.append(Joueur(b))
+#     l = []
+#     for p in player_list:
+#         l += player_list[p]
+#     random.shuffle(l)
+#     return l
