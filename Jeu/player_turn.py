@@ -32,7 +32,7 @@ def del_card(player,main: list,color: str,value: int):
 def player_turn( center_value: int, player):
     
     print ("__C'est au joueur",player.numero_joueur + 1,"de jouer__")
-    print(".La valeur du centre est",center_value,".")
+    print(". La valeur du centre est",center_value,".")
     w = True
     dict_deck = convert(player.deck)
     
@@ -135,7 +135,7 @@ def fin_de_tour(player_list: list, player):# Dans cette fontion, on veut déterm
         
         if joueurs != player:
             liste_joueur.append(joueurs)
-    
+
     if all(joueur.passed == True for joueur in liste_joueur) == True :
         return True
     else:
@@ -171,9 +171,8 @@ def del_player(player_list: list, player):
             del(player_list[i])
             
             
-def tour_de_table(player_list: list, manche):
+def tour_de_table(player_list: list, manche, center_value):
     
-    center_value = 0
     tour = True
 
     while tour == True :
@@ -181,19 +180,22 @@ def tour_de_table(player_list: list, manche):
 
         for joueur in player_list :
             
-            center_value = player_turn(center_value,joueur)
-            print(fin_de_tour(player_list,joueur))
-            
-            
-            if joueur.deck == []:
-                calcul_points(player_list,joueur,manche)
-                del_player(player_list,joueur)
-            
             if fin_de_tour(player_list,joueur) == True :
+                center_value = 0
                 for jr in player_list:
                     jr.passed = False
                 player_list = player_order(player_list,joueur)
                 tour = False
                 
-    return player_list
+            if joueur.deck == []:
+                calcul_points(player_list,joueur,manche)
+                del_player(player_list,joueur)
+            
+            center_value = player_turn(center_value,joueur)
+            
+            
+            
+                
+    
+    return player_list,center_value
                 
